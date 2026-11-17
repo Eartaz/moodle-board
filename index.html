@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src https:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="課程首頁">
+<meta name="theme-color" content="#f6f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#23211e" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAC5UlEQVR42u3bPUoDQRiA4cng7WzESuwF9UAasBcrsfFaFuIBLIKd2MTsfD/Pe4LM7JNvluxm9/X5MaTfmrZAcAgOwSE4BIfgEByCQ3AIDgkOwSE4BIfgEByCQ3AIDsEh/XQW9pM9vOz7XIb7q9uAn2oX6q8JrUDEhxICBxMxlazEwURwJZOM+K3aqwWTA4ssI2SSYYSsnxxYpBshkwwjZCUOMpLu6iSDjzU4yEjtY5LBx9Y4yCjgwyN7bYvD2KgxPCYZfDhWtBqHsVFpeEwy+HCsCA4FxOFMqXeymByCQ6twOFNKniwmh+DQKPRf2euL6z6X4fnteZT8r+y/33C0YnFSIke+pD4NDGvPgaOzjIA74IZUGXAYG9H2weQQHIJDcAgOwSE4BIfgGD2eTHbeB5NDSXAYHqF2YNodax+J3gQ77JE3weAwQtxzCA7BITgEhwSH4BAcGm1/BLs8v8u7ra/vj3Bg8dcSshOZZFhLDhyVZBRYkRtSZcBRb2xkX5fJITgEh+AQHIJDcAgOwTE8yay+LpNDSXDUGx6pVzTtprWMRC/7HPbUm2BwtLs/dawIDsEhOCQ4BIfgEBwafgT76eb8Is6HeXp/gwOLvz5SNyKTjBqfrT6O+LvfyocbUmXAkeVL2Wd4mByCQ3AIDsEhOASH4BAco+uTzz6P30wOJcER/0vZ6qn9tPtkjEQv+xyugTfB4HA9HCuCQ3AIDsFxZPdXt/YxYMdfF5NDcAgOhcPhtqPeDYfJITi0FoeTpdiZYnIIDi3H4WSpdKb8/+Tgo4wMx4q2xWF41Bgbp5ocfBSQ4VjRChyGR/axcdrJwUdqGSc/VvjIK2OLew4+8u7tLLAGMnI/W+Ej437uvj4/tlzVw8vepc3yNZuF10ZGsslhhCT6Us1WqyUjx+QwReJ/f0LgoCTmTI2Foy2UmIdsXBwaXjAWHIJDcAgOwSHBITgEh+AQHIJDcAgOwSE4JDgEh+AQHNq6bz1//35NRhxqAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAC5UlEQVR42u3bPUoDQRiA4cng7WzESuwF9UAasBcrsfFaFuIBLIKd2MTsfD/Pe4LM7JNvluxm9/X5MaTfmrZAcAgOwSE4BIfgEByCQ3AIDgkOwSE4BIfgEByCQ3AIDsEh/XQW9pM9vOz7XIb7q9uAn2oX6q8JrUDEhxICBxMxlazEwURwJZOM+K3aqwWTA4ssI2SSYYSsnxxYpBshkwwjZCUOMpLu6iSDjzU4yEjtY5LBx9Y4yCjgwyN7bYvD2KgxPCYZfDhWtBqHsVFpeEwy+HCsCA4FxOFMqXeymByCQ6twOFNKniwmh+DQKPRf2euL6z6X4fnteZT8r+y/33C0YnFSIke+pD4NDGvPgaOzjIA74IZUGXAYG9H2weQQHIJDcAgOwSE4BIfgGD2eTHbeB5NDSXAYHqF2YNodax+J3gQ77JE3weAwQtxzCA7BITgEhwSH4BAcGm1/BLs8v8u7ra/vj3Bg8dcSshOZZFhLDhyVZBRYkRtSZcBRb2xkX5fJITgEh+AQHIJDcAgOwTE8yay+LpNDSXDUGx6pVzTtprWMRC/7HPbUm2BwtLs/dawIDsEhOCQ4BIfgEBwafgT76eb8Is6HeXp/gwOLvz5SNyKTjBqfrT6O+LvfyocbUmXAkeVL2Wd4mByCQ3AIDsEhOASH4BAco+uTzz6P30wOJcER/0vZ6qn9tPtkjEQv+xyugTfB4HA9HCuCQ3AIDsFxZPdXt/YxYMdfF5NDcAgOhcPhtqPeDYfJITi0FoeTpdiZYnIIDi3H4WSpdKb8/+Tgo4wMx4q2xWF41Bgbp5ocfBSQ4VjRChyGR/axcdrJwUdqGSc/VvjIK2OLew4+8u7tLLAGMnI/W+Ej437uvj4/tlzVw8vepc3yNZuF10ZGsslhhCT6Us1WqyUjx+QwReJ/f0LgoCTmTI2Foy2UmIdsXBwaXjAWHIJDcAgOwSHBITgEh+AQHIJDcAgOwSE4JDgEh+AQHNq6bz1//35NRhxqAAAAAElFTkSuQmCC">
+<title>課程首頁</title>
+<style>
+:root{
+  --bg:#f4f2ee; --bg2:#efece7; --card:#ffffff; --cell:#fcfbf9;
+  --ink:#4a4844; --ink-soft:#807c74; --ink-faint:#a8a49b; --dark:#3f3d39;
+  --line:#e7e3db; --line-strong:#d8d3c8;
+  --accent:#8a9a86; --accent-deep:#6f7f6b; --accent-soft:#e4eae0;
+  --danger:#c99b93; --danger-ink:#a8635a; --danger-soft:#f8e9e5;
+  --warm-ink:#9c7a56; --warm-soft:#f3ece3;
+  --radius:16px; --radius-s:11px;
+  --shadow:0 1px 2px rgba(80,74,64,.04),0 6px 20px rgba(80,74,64,.06);
+  --shadow-soft:0 1px 3px rgba(80,74,64,.05);
+  --glass:rgba(246,244,240,.82);
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mix-base:#ffffff; --mix-ink:#3f3d39;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#23211e; --bg2:#2b2925; --card:#2f2c28; --cell:#2a2824;
+  --ink:#e8e3da; --ink-soft:#b4aea3; --ink-faint:#8a857c; --dark:#f1ece4;
+  --line:#3b3833; --line-strong:#4a463f;
+  --accent:#9aab96; --accent-deep:#b7c7b2; --accent-soft:#353d33;
+  --danger:#d6a69e; --danger-ink:#e5a49a; --danger-soft:#43302c;
+  --warm-ink:#d8b48a; --warm-soft:#40362a;
+  --shadow:0 1px 2px rgba(0,0,0,.2),0 6px 20px rgba(0,0,0,.25); --shadow-soft:0 1px 3px rgba(0,0,0,.2);
+  --glass:rgba(35,33,30,.82); --mix-base:#2f2c28; --mix-ink:#ffffff;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{background:var(--bg2)}
+body{background:linear-gradient(180deg,var(--bg) 0,var(--bg2) 700px) no-repeat,var(--bg2);min-height:100vh;color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;padding-bottom:calc(60px + env(safe-area-inset-bottom));-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-weight:700;letter-spacing:.2px;margin:0}
+p{margin:0}
+button,input,select,textarea{font-family:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+::selection{background:#d9e2d5}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+[hidden]{display:none!important}
+
+/* 每門課的顏色：--cb 是課程色，其餘由它算出 */
+.cc{--cf:color-mix(in srgb,var(--cb) 32%,var(--mix-base));--ci:color-mix(in srgb,var(--cb) 50%,var(--mix-ink))}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:40;background:var(--glass);backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);
+  border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:12px max(18px,env(safe-area-inset-left));display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand .dot{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#a7b7a2,#8a9a86);box-shadow:var(--shadow-soft);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:700}
+.brand h1{font-size:18px;line-height:1.3}
+.brand small{display:block;color:var(--ink-faint);font-size:12px;font-weight:500;letter-spacing:.3px}
+.week{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft)}
+.week b{color:var(--ink);font-weight:700}
+.nav{display:flex;gap:4px}
+.nav button{border:none;background:transparent;color:var(--ink-soft);padding:7px 14px;border-radius:99px;font-size:14px;font-weight:600;transition:all .25s ease;display:inline-flex;gap:6px;align-items:center}
+.nav button:hover{background:var(--bg2);color:var(--ink)}
+.nav button.active{background:var(--accent-soft);color:var(--accent-deep)}
+.nav .badge{font-size:11px;font-weight:700;background:var(--danger);color:#fff;border-radius:99px;padding:0 7px;line-height:18px}
+.nav .d{display:none}
+.tools{display:flex;gap:4px}
+.iconbtn{border:none;background:transparent;color:var(--ink-faint);padding:7px;border-radius:9px;line-height:0;transition:all .18s}
+.iconbtn:hover{background:var(--bg2);color:var(--ink)}
+.iconbtn svg{width:19px;height:19px}
+.iconbtn.spin svg{animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:819px){
+  .brand{flex:1}
+  .week{display:none}
+  .nav{order:5;width:100%;background:var(--bg2);border-radius:99px;padding:3px;gap:2px}
+  .nav button{flex:1;justify-content:center;padding:7px 8px}
+  .nav button.active{background:var(--card);color:var(--accent-deep);box-shadow:var(--shadow-soft)}
+}
+@media (min-width:820px){ .nav .only-m{display:none} .nav .m{display:none} .nav .d{display:inline} }
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:22px max(18px,env(safe-area-inset-left)) 0}
+.section-head{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
+.section-head h2{font-size:19px}
+.section-head .spacer{flex:1}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.cols{display:grid;gap:30px}
+@media (min-width:820px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);align-items:start}}
+@media (max-width:819px){ body[data-view="todo"] #col-news, body[data-view="news"] #col-todo{display:none} }
+body[data-view="cal"] .cols, body:not([data-view="cal"]) #view-cal{display:none}
+.banner{border-radius:var(--radius-s);padding:10px 16px;font-size:13.5px;margin:0 0 16px;background:var(--warm-soft);color:var(--ink)}
+.banner.err{background:var(--danger-soft)}
+
+/* buttons */
+.btn{border:none;border-radius:var(--radius-s);padding:10px 18px;font-size:14px;font-weight:600;background:var(--accent);color:#fff;transition:all .22s ease;box-shadow:var(--shadow-soft);text-decoration:none;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn:hover{background:var(--accent-deep);transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn.ghost{background:var(--card);color:var(--ink-soft);border:1px solid var(--line-strong);box-shadow:none}
+.btn.ghost:hover{background:var(--bg2);color:var(--ink)}
+.btn.small{padding:6px 12px;font-size:12.5px;border-radius:9px}
+.btn.danger{background:var(--card);color:var(--danger-ink);border:1px solid var(--danger-soft)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.linkbtn{border:none;background:none;color:var(--ink-soft);font-size:13px;font-weight:600;padding:4px 6px;border-radius:7px}
+.linkbtn:hover{background:var(--bg2);color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{margin:0 0 22px;display:grid;gap:18px}
+@media (min-width:820px){.hero{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}}
+.next{position:relative;overflow:hidden;padding:22px 22px 20px 26px}
+.next::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--cb)}
+.next .lab{font-size:12.5px;font-weight:600;color:var(--ink-soft);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.next h2{font-size:19px;margin:8px 0 2px;line-height:1.4;overflow-wrap:anywhere}
+.clock{font-size:clamp(46px,12vw,64px);font-weight:800;line-height:1.05;letter-spacing:1px;font-variant-numeric:tabular-nums;color:var(--dark);margin:14px 0 4px}
+.clock .u{font-size:.36em;font-weight:700;color:var(--ink-faint);margin:0 .35em 0 .12em;letter-spacing:0}
+.next.hot .clock{color:var(--danger-ink)}
+.next .dl{font-size:13.5px;color:var(--ink-soft)}
+.next .acts{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.next .over{font-size:12.5px;color:var(--danger-ink);background:var(--danger-soft);border-radius:8px;padding:3px 10px;margin-top:14px;display:inline-block}
+.then{padding:18px 18px 10px}
+.then h3{font-size:14px;color:var(--ink-soft);margin:0 0 8px}
+.then ol{list-style:none;margin:0;padding:0}
+.then li{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.then li:first-child{border-top:0}
+.then .bk{width:28px;height:28px;border-radius:8px;background:var(--cf);flex:none;border:1px solid rgba(0,0,0,.05);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ci)}
+.then .mid{min-width:0;flex:1}
+.then b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.then small{color:var(--ink-faint);font-size:12px}
+@media (max-width:819px){.then{display:none}}
+
+/* chips / tags */
+.filters{display:flex;gap:8px;overflow-x:auto;padding:0 2px 16px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line-strong);background:var(--card);border-radius:99px;padding:5px 13px 5px 10px;font-size:13px;font-weight:600;color:var(--ink-soft);display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:all .2s}
+.chip i{width:11px;height:11px;border-radius:4px;background:var(--cb)}
+.chip[aria-pressed="true"]{background:var(--cf,var(--accent-soft));border-color:transparent;color:var(--ci,var(--accent-deep))}
+.chip.all[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-deep)}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;letter-spacing:.2px;white-space:nowrap;background:var(--bg2);color:var(--ink-soft)}
+.tag.course{background:var(--cf);color:var(--ci)}
+.tag.ann{background:#efe8f0;color:#8a6f95}
+.tag.evt{background:#e5ecf0;color:#5c7688}
+.tag.mine{background:#f0ece3;color:#98805a}
+@media (prefers-color-scheme:dark){.tag.ann{background:#3a3340;color:#c9b2d6}.tag.evt{background:#2f3a42;color:#a9c0d2}.tag.mine{background:#3d372c;color:#d6c09a}}
+
+/* ---------- todo ---------- */
+.group-label{font-size:13px;font-weight:700;color:var(--ink-soft);margin:18px 0 8px;display:flex;align-items:center;gap:8px;letter-spacing:.3px}
+.group-label::before{content:"";width:5px;height:14px;border-radius:3px;background:var(--accent)}
+.group-label.over{color:var(--danger-ink)} .group-label.over::before{background:var(--danger)}
+.group-label.tom::before{background:#cfb391} .group-label.week::before{background:#8fa2b0} .group-label.later::before{background:#c8b9a3}
+.group-label .n{margin-left:auto;color:var(--ink-faint);font-size:12px}
+.cols .group-label:first-child{margin-top:0}
+.plist{display:flex;flex-direction:column;gap:8px}
+.pitem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--cell);border:1px solid var(--line);border-radius:var(--radius-s);padding:11px 14px;transition:all .2s ease;position:relative}
+.pitem:hover{border-color:var(--line-strong);background:var(--card);box-shadow:var(--shadow-soft)}
+.pitem.done{opacity:.55}
+.pitem.done .pname{text-decoration:line-through}
+.pitem.evt{background:transparent;border-style:dashed}
+.chk{appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--line-strong);background:var(--card);cursor:pointer;position:relative;transition:all .2s;flex-shrink:0;margin:0}
+.chk:hover{border-color:var(--accent)}
+.chk:checked{background:var(--accent);border-color:var(--accent)}
+.chk:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.pmeta{min-width:0}
+.pname{font-weight:600;font-size:14.5px;line-height:1.45;overflow-wrap:anywhere;text-decoration:none;display:block}
+a.pname:hover{text-decoration:underline;text-underline-offset:3px}
+.psub{font-size:12px;color:var(--ink-faint);margin-top:4px;display:flex;gap:6px 8px;flex-wrap:wrap;align-items:center}
+.pright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.rem{font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap;background:var(--bg2);color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.rem.warm{background:var(--warm-soft);color:var(--warm-ink)}
+.rem.hot,.rem.over{background:var(--danger-soft);color:var(--danger-ink)}
+.rem.soon{background:var(--accent-soft);color:var(--accent-deep)}
+.empty{text-align:center;padding:34px 20px;color:var(--ink-faint);font-size:13.5px;background:var(--cell);border:1px dashed var(--line-strong);border-radius:var(--radius)}
+.empty .em{font-size:28px;display:block;margin-bottom:8px;opacity:.7}
+
+/* ---------- posts ---------- */
+.post{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:16px 18px;position:relative;overflow:hidden}
+.post+.post{margin-top:10px}
+.post::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--cb)}
+.post .hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--ink-faint)}
+.post .new{background:var(--danger);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:0 8px;line-height:19px}
+.post .when{margin-left:auto;white-space:nowrap}
+.post h4{font-size:15.5px;margin:8px 0 4px;line-height:1.45;overflow-wrap:anywhere}
+.post .body{font-size:13.5px;color:var(--ink-soft);white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.7}
+.post.open .body{display:block;color:var(--ink)}
+.post .ft{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.datechip{border:1px dashed color-mix(in srgb,var(--cb) 70%,transparent);background:var(--cf);color:var(--ci);border-radius:9px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.post .sp{flex:1}
+
+/* ---------- calendar ---------- */
+.cal-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.cal-head h2{font-size:19px;margin-right:auto}
+.tt-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--cell)}
+.tt-dh{background:var(--bg2);font-weight:700;color:var(--ink-soft);font-size:12px;text-align:center;padding:6px 0;border-right:1px solid var(--line);border-bottom:1px solid var(--line-strong)}
+.tt-dh.we{color:var(--ink-faint)}
+.tt-cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:104px;padding:4px;text-align:left;background:transparent;border-top:0;border-left:0;display:flex;flex-direction:column;gap:3px;cursor:pointer;font:inherit;color:inherit;transition:background .15s}
+.tt-cell:hover{background:var(--card)}
+.tt-cell .dn{font-size:12px;font-weight:700;color:var(--ink-soft);width:24px;height:24px;display:grid;place-items:center;border-radius:8px}
+.tt-cell.out .dn{color:var(--ink-faint);opacity:.6}
+.tt-cell.today .dn{background:var(--accent);color:#fff}
+.tt-cell.sel{background:var(--card);box-shadow:inset 0 0 0 2px var(--accent)}
+.tt-block{border-radius:7px;padding:2px 6px;font-size:11px;font-weight:700;line-height:1.3;color:var(--ci);background:var(--cf);border:1px solid rgba(0,0,0,.05);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tt-block.evt{background:transparent;border:1px dashed color-mix(in srgb,var(--cb) 70%,transparent)}
+.tt-block.done{opacity:.45;text-decoration:line-through}
+.tt-more{font-size:11px;color:var(--ink-faint);font-weight:700;padding-left:4px}
+.dots{display:none;gap:3px;flex-wrap:wrap;padding:0 3px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--cb)}
+@media (max-width:640px){
+  .tt-cell{min-height:58px;align-items:center}
+  .tt-block,.tt-more{display:none}
+  .dots{display:flex;justify-content:center}
+}
+.day-panel{margin-top:18px}
+.cat-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;font-size:12px;color:var(--ink-soft)}
+.cat-legend span{display:flex;align-items:center;gap:6px}
+.cat-legend i{width:14px;height:14px;border-radius:5px;background:var(--cf);border:1px solid var(--cb)}
+.cat-legend i.d{background:transparent;border-style:dashed}
+
+/* ---------- modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(60,56,50,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px}
+@media (max-width:640px){.modal-bg{align-items:flex-end;padding:0}.modal{border-radius:var(--radius) var(--radius) 0 0!important;padding-bottom:calc(22px + env(safe-area-inset-bottom))!important}}
+.modal{background:var(--card);border-radius:var(--radius);padding:24px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow:auto}
+.modal h3{font-size:17px;margin-bottom:6px;overflow-wrap:anywhere}
+.modal .hint{font-size:13px;color:var(--ink-soft);margin-bottom:16px;line-height:1.65}
+.modal .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+label.field{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:7px;letter-spacing:.3px}
+.input,select.input,textarea.input{width:100%;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:var(--radius-s);padding:11px 13px;outline:none;transition:border-color .2s,box-shadow .2s}
+.input:focus{border-color:var(--accent);background:var(--card);box-shadow:0 0 0 3px rgba(138,154,134,.14)}
+textarea.input{min-height:150px;resize:vertical;line-height:1.6}
+.fgroup{margin-bottom:16px}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.intro{font-size:13px;color:var(--ink-soft);background:var(--bg);border-radius:var(--radius-s);padding:10px 12px;white-space:pre-line;max-height:9.5em;overflow:auto;margin-bottom:16px;line-height:1.65}
+.files{display:flex;flex-direction:column;gap:6px;margin:8px 0 0}
+.file{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:7px 10px}
+.file span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file small{color:var(--ink-faint)}
+.drop{display:block;border:1.5px dashed var(--line-strong);border-radius:var(--radius-s);padding:16px;text-align:center;font-size:13.5px;color:var(--ink-soft);cursor:pointer;background:var(--cell)}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-deep)}
+.drop input{display:none}
+.warnbox{font-size:12.5px;color:var(--danger-ink);background:var(--danger-soft);border-radius:8px;padding:6px 10px;margin-top:8px}
+.okbox{font-size:13px;color:var(--accent-deep);background:var(--accent-soft);border-radius:10px;padding:10px 12px}
+.stmt{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6;background:var(--bg);border-radius:var(--radius-s);padding:10px 12px}
+.stmt .chk{margin-top:2px}
+.cl{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.cl label{display:flex;align-items:center;gap:10px;font-size:14px;padding:8px 10px;border-radius:9px;background:var(--bg)}
+.cl label small{margin-left:auto;color:var(--ink-faint);white-space:nowrap}
+.cl i{width:12px;height:12px;border-radius:4px;background:var(--cb);flex:none}
+
+/* ---------- setup ---------- */
+.setup{max-width:540px;margin:6vh auto 40px}
+.setup h2{font-size:24px;line-height:1.35;margin:0 0 8px}
+.setup .lead{color:var(--ink-soft);margin:0 0 20px;font-size:14.5px}
+.steps{list-style:none;margin:0 0 20px;padding:0}
+.steps li{display:flex;gap:12px;padding:0 0 12px;font-size:14px}
+.steps li b{flex:none;width:26px;height:26px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep);display:grid;place-items:center;font-size:13px}
+.steps a{font-weight:700;color:var(--accent-deep)}
+.note{font-size:12.5px;color:var(--ink-faint);margin-top:14px;line-height:1.7}
+.err-t{color:var(--danger-ink);font-size:13.5px;margin:8px 0 0}
+
+#toast{position:fixed;bottom:calc(26px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:#413f3b;color:#fff;padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.2,.7,.2,1);z-index:100;display:flex;gap:14px;align-items:center;max-width:calc(100vw - 32px)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+#toast button{border:none;background:none;color:#cfe0c9;font-weight:700;padding:0}
+.foot{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:34px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-view="todo">
+<div id="app"></div>
+<div id="layer"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+const PREVIEW = false;           // 範例預覽版會改成 true
+const DEFAULT_URL = "https://moodle.ncku.edu.tw";
+const COLORS = ["#9FB39A","#8FA6C0","#AC9CC4","#CFB391","#CBA79F","#93B5AE","#C9BD9A","#C39AAE","#A7B7D6","#B9A58F"];
+const GRAY = "#B9B4AA";
+const WK = "日一二三四五六";
+const KIND = {assign:"作業",quiz:"測驗",forum:"討論區",lesson:"單元",workshop:"互評",choice:"票選",feedback:"回饋單",questionnaire:"問卷",
+  attendance:"點名",scorm:"SCORM",lti:"外部工具",h5pactivity:"互動",data:"資料庫",glossary:"詞彙表",custom:"自己加的",ann:"公告提到",event:"課程行事曆",course:"課程"};
+
+/* ---------- storage ---------- */
+const LS = {
+  get(k,d){try{const v=localStorage.getItem("mb:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("mb:"+k,JSON.stringify(v))}catch(e){}},
+  del(k){try{localStorage.removeItem("mb:"+k)}catch(e){}}
+};
+const S = {
+  cfg: LS.get("cfg",{url:DEFAULT_URL,token:"",allForums:false,courses:null}),
+  data: LS.get("data",null), custom: LS.get("custom",[]), hidden: new Set(LS.get("hidden",[])),
+  seen: LS.get("seen",null), colors: LS.get("colors",{}), hinted: LS.get("hinted",false),
+  filter: new Set(), open: new Set(), showDone:false, demo:false, loading:false, err:"",
+  modal:null, cal:null, calSel:null, sub:null
+};
+const saveCfg=()=>LS.set("cfg",S.cfg);
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const now=()=>Math.floor(Date.now()/1000);
+const pad=n=>String(n).padStart(2,"0");
+const base=()=>S.cfg.url.replace(/\/+$/,"");
+function safeUrl(u){try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:""}catch(e){return ""}}
+function fmtDate(ts,{time=true,allDay=false}={}){const d=new Date(ts*1000);
+  return `${d.getMonth()+1}/${d.getDate()}（${WK[d.getDay()]}）`+(time&&!allDay?`${pad(d.getHours())}:${pad(d.getMinutes())}`:"")}
+function hm(ts){const d=new Date(ts*1000);return `${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function dayKey(ts){const d=new Date(ts*1000);return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()}
+function startOfDay(ts){const d=new Date(ts*1000);d.setHours(0,0,0,0);return Math.floor(d/1000)}
+function dayDiff(ts){return Math.round((startOfDay(ts)-startOfDay(now()))/86400)}
+function ago(ts){const s=now()-ts;
+  if(s<60) return "剛剛"; if(s<3600) return `${Math.floor(s/60)} 分鐘前`; if(s<86400) return `${Math.floor(s/3600)} 小時前`;
+  const d=-dayDiff(ts); if(d===1) return "昨天 "+hm(ts); if(d<7) return `${d} 天前`; return fmtDate(ts,{time:false})}
+function remain(sec){const a=Math.abs(sec),d=Math.floor(a/86400),h=Math.floor(a%86400/3600),m=Math.floor(a%3600/60);
+  const t=d>=7?`${d} 天`:d>=1?(h?`${d} 天 ${h} 時`:`${d} 天`):h>=1?`${h} 時 ${m} 分`:`${Math.max(m,1)} 分`;
+  return sec<0?`逾期 ${t}`:`剩 ${t}`}
+function when(x){ // 事件（非作業）用「今天／明天／N 天後」
+  const d=dayDiff(x.due), t=x.allDay?"":" "+hm(x.due);
+  return d===0?"今天"+t:d===1?"明天"+t:d===2?"後天"+t:d<0?`${-d} 天前`:`${d} 天後`}
+function urgency(sec){return sec<0?"over":sec<86400?"hot":sec<3*86400?"warm":"calm"}
+function shortName(n){
+  let s=String(n||"").trim().replace(/^[\[【(（]?\s*\d{3}\s*[-－學年度]*\s*[12上下]?\s*[學期]*\s*[\]】)）]?\s*/,"").replace(/^[A-Z]\d{4,}[-\s]*/,"");
+  if(/[一-鿿]/.test(s)) s=s.replace(/\s*[(（][^()（）]*[A-Za-z][^()（）]*[)）]\s*$/,"").replace(/\s+[A-Za-z][A-Za-z0-9 ,.&:'\-()]+$/,"");
+  return s||String(n||"")}
+function htmlToText(h){
+  if(!h) return "";
+  const doc=new DOMParser().parseFromString(String(h),"text/html");
+  doc.querySelectorAll("script,style").forEach(n=>n.remove());
+  doc.querySelectorAll("br").forEach(n=>n.replaceWith("\n"));
+  doc.querySelectorAll("p,div,li,tr,h1,h2,h3,h4,h5,h6,blockquote").forEach(n=>n.append("\n"));
+  return (doc.body.textContent||"").replace(/ /g," ").replace(/[ \t]+/g," ").replace(/\n\s*\n+/g,"\n").trim()}
+function textToHtml(t){return String(t).split(/\n/).map(l=>esc(l)).join("<br>")}
+function fsize(b){return b>=1048576?(b/1048576).toFixed(b>=10485760?0:1)+" MB":Math.max(1,Math.round(b/1024))+" KB"}
+function colorOf(cid){
+  if(!cid) return GRAY;
+  if(S.colors[cid]==null){const used=new Set(Object.values(S.colors));let i=0;while(used.has(i)&&i<COLORS.length)i++;
+    S.colors[cid]=i<COLORS.length?i:Object.keys(S.colors).length%COLORS.length;LS.set("colors",S.colors)}
+  return COLORS[S.colors[cid]]}
+function course(cid){return (S.data&&S.data.courses||[]).find(c=>c.id===cid)}
+function cname(cid){const c=course(cid);return c?shortName(c.fullname):(cid?"":"個人")}
+
+/* ---------- 公告內文裡的日期 ---------- */
+const RX_YMD=/(\d{3,4})\s*[\/\-.年]\s*(\d{1,2})\s*[\/\-.月]\s*(\d{1,2})\s*[日號]?/g;
+const RX_MD=/(\d{1,2})\s*(?:\/|／|月)\s*(\d{1,2})\s*[日號]?/g;
+const RX_TIME=/^\s*(?:[（(]\s*(?:週|星期|禮拜)?\s*[一二三四五六日天]\s*[)）])?\s*(?:(?:週|星期|禮拜)[一二三四五六日天])?\s*(上午|早上|中午|下午|晚上|傍晚)?\s*(\d{1,2})\s*(?:[:：]\s*(\d{2})|點\s*(半|\d{1,2}\s*分?)?)/;
+function snippetAround(t,idx){
+  let a=idx,b=idx;
+  while(a>0&&!/[。！？!?\n；;]/.test(t[a-1])) a--;
+  while(b<t.length&&!/[。！？!?\n；;]/.test(t[b])) b++;
+  let s=t.slice(a,b).trim().replace(/^[，,、\s]+/,"");
+  if(s.length>46) s=s.slice(0,46)+"…";
+  return s}
+function findDates(text,postTs){
+  if(!text) return [];
+  const t=text.replace(/https?:\/\/\S+/g,m=>" ".repeat(m.length)).replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0));
+  const out=new Map(), b0=new Date(postTs*1000);
+  const take=(y,mo,d,idx,len)=>{
+    const prev=t[idx-1]||"", next=t[idx+len]||"";
+    if(/[\d\/.\-]/.test(prev)||/[\d\/]/.test(next)) return;
+    if(y==null&&/[佔占約的為是乘除加減比]\s*$/.test(t.slice(Math.max(0,idx-2),idx))) return;
+    if(y==null&&/^\s*[的以倍份成]/.test(t.slice(idx+len,idx+len+2))) return;
+    if(mo<1||mo>12||d<1||d>31) return;
+    let yy=y;
+    if(yy==null){yy=b0.getFullYear();if(new Date(yy,mo-1,d)/1000<postTs-3*86400) yy+=1}
+    else if(yy<1000) yy+=1911;
+    const day=new Date(yy,mo-1,d); if(day.getMonth()!==mo-1) return;
+    const tm=RX_TIME.exec(t.slice(idx+len,idx+len+24)); let allDay=true;
+    if(tm){let h=+tm[2],mi=tm[3]!=null?+tm[3]:tm[4]==="半"?30:tm[4]?parseInt(tm[4]):0;
+      if((tm[1]==="下午"||tm[1]==="晚上"||tm[1]==="傍晚")&&h<12) h+=12; if(tm[1]==="中午"&&h<11) h+=12;
+      if(h<=23&&mi<=59){day.setHours(h,mi,0,0);allDay=false}}
+    const ts=Math.floor(day/1000);
+    if(ts<postTs-3*86400||ts>postTs+240*86400) return;
+    const dk=dayKey(ts);
+    for(const [k,v] of out){ if(dayKey(v.ts)===dk){ if(v.allDay&&!allDay) out.delete(k); else return; } }
+    out.set(allDay?"d"+dk:"t"+ts,{ts,allDay,snip:snippetAround(t,idx)});
+  };
+  const spans=[];
+  for(const m of t.matchAll(RX_YMD)){spans.push([m.index,m.index+m[0].length]);take(+m[1],+m[2],+m[3],m.index,m[0].length)}
+  for(const m of t.matchAll(RX_MD)){if(spans.some(([a,b])=>m.index>=a&&m.index<b)) continue; take(null,+m[1],+m[2],m.index,m[0].length)}
+  return [...out.values()].sort((a,b)=>a.ts-b.ts).slice(0,4)}
+
+/* ---------- Moodle API ---------- */
+class MErr extends Error{constructor(code,msg){super(msg);this.code=code}}
+const AUTH=new Set(["invalidtoken","accessexception","usernotfullysetup","forcepasswordchangenotice","invalidlogin"]);
+function flat(v,k,out){
+  if(Array.isArray(v)) v.forEach((x,i)=>flat(x,`${k}[${i}]`,out));
+  else if(v&&typeof v==="object") for(const [kk,x] of Object.entries(v)) flat(x,k?`${k}[${kk}]`:kk,out);
+  else out.append(k,v===true?"1":v===false?"0":String(v))}
+async function ws(fn,params={}){
+  const body=new URLSearchParams({wstoken:S.cfg.token,wsfunction:fn,moodlewsrestformat:"json"}); flat(params,"",body);
+  let r; try{r=await fetch(base()+"/webservice/rest/server.php",{method:"POST",body,credentials:"omit",cache:"no-store"})}
+  catch(e){throw new MErr("network","連不上 Moodle")}
+  if(!r.ok) throw new MErr("http","Moodle 回應錯誤（HTTP "+r.status+"）");
+  let j; try{j=await r.json()}catch(e){throw new MErr("badjson","Moodle 回傳的不是資料")}
+  if(j&&j.exception) throw new MErr(j.errorcode||"unknown",j.message||j.errorcode||"");
+  return j}
+async function uploadFile(file,itemid){
+  const fd=new FormData(); fd.append("token",S.cfg.token); fd.append("filearea","draft"); fd.append("itemid",String(itemid||0)); fd.append("file_1",file,file.name);
+  let r; try{r=await fetch(base()+"/webservice/upload.php",{method:"POST",body:fd,credentials:"omit"})}catch(e){throw new MErr("network","上傳時連不上 Moodle")}
+  let j; try{j=await r.json()}catch(e){throw new MErr("badjson","上傳失敗")}
+  if(!Array.isArray(j)||!j.length||j.error) throw new MErr(j&&j.errorcode||"upload",(j&&j.error)||"上傳失敗");
+  return j[0].itemid}
+async function pool(list,n,fn){const out=new Array(list.length);let i=0;
+  await Promise.all(Array.from({length:Math.min(n,list.length)},async()=>{while(i<list.length){const k=i++;out[k]=await fn(list[k])}}));return out}
+function pickCurrent(courses,t){const act=courses.filter(c=>c.visible!==0&&(!c.enddate||c.enddate>t)&&!c.hidden);
+  const recent=act.filter(c=>(c.startdate||0)>=t-210*86400);return recent.length?recent:act}
+let discussionFn=null;
+async function discussions(fid){
+  const v=[["mod_forum_get_forum_discussions",{forumid:fid,page:0,perpage:15}],
+    ["mod_forum_get_forum_discussions_paginated",{forumid:fid,sortby:"timemodified",sortdirection:"DESC",page:0,perpage:15}]];
+  if(discussionFn) v.sort(a=>a[0]===discussionFn?-1:1);
+  let last; for(const [fn,p] of v){try{const r=await ws(fn,p);discussionFn=fn;return r.discussions||[]}
+    catch(e){if(AUTH.has(e.code)&&e.code!=="accessexception") throw e;last=e}}
+  throw last}
+async function fetchAll(){
+  const t=now(),warns=[];
+  const info=await ws("core_webservice_get_site_info");
+  const courses=await ws("core_enrol_get_users_courses",{userid:info.userid});
+  let sel=S.cfg.courses?courses.filter(c=>S.cfg.courses.includes(c.id)):[]; if(!sel.length) sel=pickCurrent(courses,t);
+  const ids=sel.map(c=>c.id), b=base();
+  const soft=label=>e=>{if(AUTH.has(e.code)) throw e; warns.push(label); return null};
+  const evP=(async()=>{
+    let out=[],after=0;
+    for(let i=0;i<6;i++){const p={timesortfrom:t-21*86400,timesortto:t+150*86400,limitnum:50}; if(after) p.aftereventid=after;
+      const r=await ws("core_calendar_get_action_events_by_timesort",p); const ev=r.events||[]; out=out.concat(ev);
+      if(ev.length<50) break; after=r.lastid||ev[ev.length-1].id}
+    return out.filter(e=>e.course&&ids.includes(e.course.id)).map(e=>({id:"e"+e.id,name:htmlToText(e.activityname||e.name)||"（未命名）",
+      kind:e.modulename||"course",inst:e.instance||0,due:e.timesort,courseId:e.course.id,url:e.url||(e.action&&e.action.url)||"",act:e.action&&e.action.name||""}));
+  })().catch(async e=>{
+    if(AUTH.has(e.code)) throw e;
+    const r=await ws("mod_assign_get_assignments",{courseids:ids});
+    return (r.courses||[]).flatMap(c=>(c.assignments||[]).filter(a=>a.duedate>t-7*86400).map(a=>({id:"a"+a.cmid,name:htmlToText(a.name),kind:"assign",inst:a.id,
+      due:a.duedate,courseId:c.id,url:`${b}/mod/assign/view.php?id=${a.cmid}`,act:""})));
+  }).catch(soft("待辦"));
+  const calP=ws("core_calendar_get_calendar_events",{events:{courseids:ids},options:{userevents:1,siteevents:0,timestart:t-45*86400,timeend:t+150*86400}})
+    .then(r=>(r.events||[]).filter(e=>!e.modulename&&["course","group","user","category"].includes(e.eventtype)).map(e=>({
+      id:"k"+e.id,name:htmlToText(e.name)||"（未命名）",kind:"event",due:e.timestart,allDay:(e.timeduration||0)>=86400&&hm(e.timestart)==="00:00",
+      courseId:ids.includes(e.courseid)?e.courseid:0,note:htmlToText(e.description).slice(0,200),url:`${b}/calendar/view.php?view=day&time=${e.timestart}`})))
+    .catch(soft("課程行事曆"));
+  const postP=(async()=>{
+    const forums=await ws("mod_forum_get_forums_by_courses",{courseids:ids});
+    const use=forums.filter(f=>ids.includes(f.course)&&(S.cfg.allForums||f.type==="news"));
+    const lists=await pool(use,4,async f=>{try{
+      return (await discussions(f.id)).map(d=>{const did=d.discussion||d.id;
+        return {id:"d"+did,courseId:f.course,forum:htmlToText(f.name),news:f.type==="news",title:htmlToText(d.subject||d.name)||"（無標題）",
+          text:htmlToText(d.message).slice(0,5000),author:d.userfullname||"",time:d.created||d.timemodified||0,pinned:!!d.pinned,
+          att:(d.attachments&&d.attachments.length)||(d.attachment?1:0),url:`${b}/mod/forum/discuss.php?d=${did}`}})}
+      catch(e){if(AUTH.has(e.code)) throw e; warns.push("部分討論區"); return []}});
+    return lists.flat().sort((a,b)=>b.time-a.time).slice(0,200);
+  })().catch(soft("公告"));
+  const [events,cal,posts]=await Promise.all([evP,calP,postP]); const prev=S.data||{};
+  return {fetched:t,user:info.fullname||"",site:info.sitename||"",
+    courses:courses.map(c=>({id:c.id,fullname:htmlToText(c.fullname||c.shortname)||String(c.id),startdate:c.startdate||0})),selected:ids,
+    events:events||prev.events||[],cal:cal||prev.cal||[],posts:posts||prev.posts||[],
+    warn:warns.length?[...new Set(warns)].join("、")+"這次沒讀到，顯示的是上次的資料":""}}
+
+/* ---------- 範例資料 ---------- */
+function demoData(){
+  const t=now(),H=3600,D=86400,b=DEFAULT_URL;
+  const c=[[9101,"115-1 資料結構 (Data Structures)"],[9102,"115-1 線性代數"],[9103,"115-1 計算機組織"],[9104,"115-1 通識：台灣電影史"],[9105,"115-1 英文寫作（二）"]];
+  const ev=(id,cid,name,kind,due)=>({id:"e"+id,name,kind,inst:id,due:Math.floor(due),courseId:cid,url:b,act:kind==="quiz"?"作答":"繳交"});
+  const ps=(id,cid,title,text,ago_,author,extra={})=>Object.assign({id:"d"+id,courseId:cid,forum:"公告",news:true,title,text,author,time:Math.floor(t-ago_),pinned:false,att:0,url:b},extra);
+  const at=(days,h,m)=>{const d=new Date((t+days*D)*1000);d.setHours(h,m,0,0);return d};
+  const md=d=>`${d.getMonth()+1}/${d.getDate()}`;
+  const exam=at(15,10,10),noClass=at(8,0,0),makeup=at(22,0,0),talk=at(5,0,0),visit=at(10,13,30);
+  return {fetched:t-4*60,user:"範例同學",site:"國立成功大學 Moodle",selected:c.map(x=>x[0]),
+    courses:c.map(([id,fullname])=>({id,fullname,startdate:t-70*D})),
+    events:[ev(1,9101,"HW2 二元搜尋樹","assign",t+19*H+42*60),ev(2,9102,"第 9 週線上小考","quiz",t+2*D+5*H),ev(3,9103,"Lab 4：管線化模擬","assign",t+5*D+3*H),
+      ev(4,9102,"習題 3.2–3.5","assign",t-3*H-12*60),ev(5,9105,"Essay 2 初稿","assign",t+11*D),ev(6,9104,"影評心得（一）","assign",t+1*D+20*H),ev(7,9101,"Project 提案書","assign",t+26*D)],
+    cal:[{id:"k1",name:"校外參訪：台積電南科廠",kind:"event",due:Math.floor(visit/1000),allDay:false,courseId:9103,note:"13:30 在系館門口集合",url:b}],
+    posts:[
+      ps(11,9101,"期中考時間與範圍",`期中考訂於 ${md(exam)}（${WK[exam.getDay()]}）上午 10:10 在 4201 教室，範圍為 Ch1–Ch5。\n可攜帶一張 A4 手寫小抄，請提早 10 分鐘入座。`,3*H,"王老師",{pinned:true}),
+      ps(12,9103,"下週停課一次",`${md(noClass)} 因老師出席研討會停課一次。\n${md(makeup)} 晚上 6:30 補課，地點另行公告。`,9*H,"陳老師"),
+      ps(13,9104,"本週放映片單","本週放映《悲情城市》，片長約 159 分鐘，會延後 20 分鐘下課。請於放映後一週內繳交心得。",27*H,"林老師",{att:1}),
+      ps(14,9102,"習題 3 解答已上傳","習題 3 的參考解答已放在第 8 週資料夾，有問題歡迎來 office hour（每週二 14:00–15:00）。",2*D+3*H,"助教 黃同學"),
+      ps(15,9105,"Essay 2 規定","字數 800–1000 字，APA 格式。初稿用於同儕互評，正式稿另行公告截止日。",3*D+6*H,"Prof. Smith"),
+      ps(16,9101,"HW2 補充說明","刪除節點時若有兩個子節點，請使用 in-order successor。測資已更新，請重新下載。",4*D,"助教 李同學"),
+      ps(17,9104,"系上演講",`${md(talk)} 下午 2 點有一場關於台灣新電影的演講，出席可抵一次心得。`,5*D,"林老師")],warn:""}}
+
+/* ---------- 把所有東西整理成同一份清單 ---------- */
+function visible(cid){return !S.filter.size||!cid||S.filter.has(cid)}
+function allItems(){
+  const d=S.data||{events:[],cal:[],posts:[]}, out=[];
+  for(const e of d.events) out.push(Object.assign({},e,{src:"m",task:true,done:S.hidden.has(e.id)}));
+  for(const c of S.custom) out.push({id:c.id,name:c.title,kind:"custom",due:c.due,allDay:c.allDay,courseId:c.courseId||0,url:c.url||"",note:c.note||"",src:"c",task:true,done:!!c.done});
+  for(const k of d.cal||[]) out.push(Object.assign({},k,{src:"k",task:false,done:S.hidden.has(k.id)}));
+  for(const p of d.posts||[]) for(const x of findDates(p.text,p.time)){
+    const id="p"+p.id.slice(1)+"@"+x.ts;
+    out.push({id,name:x.snip||p.title,kind:"ann",due:x.allDay?startOfDay(x.ts)+86340:x.ts,allDay:x.allDay,courseId:p.courseId,url:p.url,
+      note:"公告：「"+p.title+"」",src:"p",task:false,done:S.hidden.has(id),postId:p.id});
+  }
+  return out.filter(x=>visible(x.courseId)).sort((a,b)=>a.due-b.due)}
+function todoLists(){
+  const t=now(),sod=startOfDay(t),all=allItems();
+  const open=[],done=[];
+  for(const x of all){
+    if(!x.task&&(x.due<sod||x.due>t+60*86400)) continue;     // 過去的活動不算待辦
+    (x.done?done:open).push(x)}
+  return {open,done,all}}
+function isNew(p){return S.seen&&!S.seen.includes(p.id)}
+
+/* ---------- 畫面 ---------- */
+const ICON={
+  refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.2 7.5l2.1 1.2M17.7 15.3l2.1 1.2M4.2 16.5l2.1-1.2M17.7 8.7l2.1-1.2"/><circle cx="12" cy="12" r="7"/></svg>'
+};
+function cbStyle(cid){return `--cb:${colorOf(cid)}`}
+
+function render(){
+  const app=$("#app");
+  if(!S.data){app.innerHTML=topbarHTML(null)+`<main class="wrap">${setupHTML()}</main>`;return renderLayer()}
+  const t=now(),{open,done,all}=todoLists();
+  const posts=(S.data.posts||[]).filter(p=>visible(p.courseId)), newCount=posts.filter(isNew).length;
+  const weekTasks=open.filter(x=>x.task&&x.due>t&&x.due<startOfDay(t)+7*86400).length;
+  app.innerHTML=topbarHTML({newCount,weekTasks,openCount:open.length})+`<main class="wrap">
+    ${PREVIEW?`<div class="banner">這是用範例資料做的預覽，繳交也只是模擬。正式版會直接讀你自己的 Moodle。</div>`:""}
+    ${S.err?`<div class="banner err">${esc(S.err)}</div>`:""}
+    ${!S.err&&S.data.warn?`<div class="banner">${esc(S.data.warn)}</div>`:""}
+    ${heroHTML(open,t)}
+    ${filtersHTML()}
+    <div class="cols">
+      <section id="col-todo" aria-labelledby="h-todo">
+        <div class="section-head"><h2 id="h-todo">待辦</h2><div class="spacer"></div><button class="btn ghost small" data-act="add">＋ 新增</button></div>
+        ${todoHTML(open,done,t)}
+      </section>
+      <section id="col-news" aria-labelledby="h-news">
+        <div class="section-head"><h2 id="h-news">公告</h2><div class="spacer"></div>${newCount?`<button class="linkbtn" data-act="readall">全部標為已讀</button>`:""}</div>
+        ${newsHTML(posts)}
+      </section>
+    </div>
+    <section id="view-cal" aria-label="行事曆">${calHTML(all,t)}</section>
+    <p class="foot">${S.demo?"範例資料":esc(S.data.user)+"　"+esc(S.data.site)}　資料只存在這台裝置的瀏覽器</p>
+  </main>`;
+  renderLayer()}
+
+function topbarHTML(info){
+  const d=new Date(), v=document.body.dataset.view;
+  const sub=!S.data?"把所有課放在同一頁":`${d.getMonth()+1} 月 ${d.getDate()} 日 星期${WK[d.getDay()]}　${S.loading?"更新中…":S.demo?"範例資料":"更新於 "+ago(S.data.fetched)}`;
+  return `<header class="topbar"><div class="topbar-inner">
+    <div class="brand"><div class="dot" aria-hidden="true">✓</div><div><h1>課程首頁</h1><small>${esc(sub)}</small></div></div>
+    ${info?`<div class="week">這 7 天還有 <b>${info.weekTasks}</b> 件要交</div>
+    <nav class="nav" aria-label="切換畫面">
+      <button data-act="view" data-v="todo" class="${v==="todo"||(v==="news"&&innerWidth>=820)?"active":""}"><span class="m">待辦</span><span class="d">總覽</span></button>
+      <button data-act="view" data-v="cal" class="${v==="cal"?"active":""}">行事曆</button>
+      <button data-act="view" data-v="news" class="only-m ${v==="news"?"active":""}">公告${info.newCount?`<span class="badge">${info.newCount}</span>`:""}</button>
+    </nav>
+    <div class="tools"><button class="iconbtn${S.loading?" spin":""}" data-act="refresh" aria-label="重新整理">${ICON.refresh}</button>
+      <button class="iconbtn" data-act="settings" aria-label="設定">${ICON.gear}</button></div>`:""}
+  </div></header>`}
+
+function heroHTML(open,t){
+  const tasks=open.filter(x=>x.task), next=tasks.find(x=>x.due>t), overdue=tasks.filter(x=>x.due<=t).length;
+  const later=open.filter(x=>x.due>t&&x!==next).slice(0,4);
+  if(!next) return `<div class="hero"><div class="panel next" style="--cb:var(--accent)"><div class="lab">最近要交</div>
+    <h2>接下來沒有要交的作業 🌿</h2>${overdue?`<div class="over">還有 ${overdue} 項已逾期，在下面的清單裡</div>`:""}</div></div>`;
+  const sec=next.due-t, url=safeUrl(next.url);
+  return `<div class="hero">
+    <div class="panel next cc${sec<86400?" hot":""}" style="${cbStyle(next.courseId)}">
+      <div class="lab">最近要交<span class="tag course">${esc(cname(next.courseId)||"自己加的")}</span></div>
+      <h2>${esc(next.name)}</h2>
+      <div class="clock" data-due="${next.due}">${clockHTML(sec)}</div>
+      <div class="dl">${esc(fmtDate(next.due,{allDay:next.allDay}))} 截止</div>
+      <div class="acts">${canSubmit(next)?`<button class="btn" data-act="submit" data-id="${esc(next.id)}">繳交</button>`:""}
+        ${url?`<a class="btn ${canSubmit(next)?"ghost":""}" href="${esc(url)}" target="_blank" rel="noopener">${canSubmit(next)?"在 Moodle 開啟":esc(next.act?"去"+next.act:"打開")}</a>`:""}</div>
+      ${overdue?`<div class="over">另外有 ${overdue} 項已逾期</div>`:""}
+    </div>
+    ${later.length?`<div class="panel then"><h3>接著是</h3><ol>${later.map(x=>`<li class="cc" style="${cbStyle(x.courseId)}">
+      <span class="bk">${esc((cname(x.courseId)||"・").slice(0,1))}</span>
+      <span class="mid"><b>${esc(x.name)}</b><small>${esc(cname(x.courseId)||"自己加的")}　${esc(fmtDate(x.due,{allDay:x.allDay}))}</small></span>
+      <span class="rem ${x.task?urgency(x.due-t):"soon"}" ${x.task?`data-due="${x.due}"`:""}>${esc(x.task?remain(x.due-t):when(x))}</span></li>`).join("")}</ol></div>`:""}
+  </div>`}
+function clockHTML(sec){
+  if(sec<=0) return "0<span class='u'>秒</span>";
+  if(sec<48*3600){const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return `${pad(h)}:${pad(m)}:${pad(s)}`}
+  const d=Math.floor(sec/86400),h=Math.floor(sec%86400/3600);return `${d}<span class="u">天</span>${h}<span class="u">小時</span>`}
+function filtersHTML(){
+  const ids=S.data.selected||[]; if(ids.length<2) return "";
+  return `<div class="filters" role="group" aria-label="篩選課程"><button class="chip all" data-act="filter" data-id="all" aria-pressed="${!S.filter.size}">全部</button>
+    ${ids.map(id=>`<button class="chip cc" style="${cbStyle(id)}" data-act="filter" data-id="${id}" aria-pressed="${S.filter.has(id)}"><i></i>${esc(cname(id))}</button>`).join("")}</div>`}
+function canSubmit(x){return x.src==="m"&&x.kind==="assign"&&x.inst&&!x.done}
+function itemHTML(x,t){
+  const url=safeUrl(x.url), sec=x.due-t;
+  const nm=url?`<a class="pname" href="${esc(url)}" target="_blank" rel="noopener">${esc(x.name)}</a>`:`<span class="pname">${esc(x.name)}</span>`;
+  const kindTag=x.src==="p"?`<span class="tag ann">公告提到</span>`:x.src==="k"?`<span class="tag evt">課程行事曆</span>`:x.src==="c"?`<span class="tag mine">自己加的</span>`:`<span class="tag">${esc(KIND[x.kind]||"活動")}</span>`;
+  const pill=x.done?"":x.task?`<span class="rem ${urgency(sec)}" data-due="${x.due}">${esc(remain(sec))}</span>`:`<span class="rem soon">${esc(when(x))}</span>`;
+  return `<div class="pitem cc${x.done?" done":""}${x.task?"":" evt"}" style="${cbStyle(x.courseId)}">
+    <input type="checkbox" class="chk" data-act="toggle" data-id="${esc(x.id)}" data-src="${x.src}" ${x.done?"checked":""} aria-label="${x.done?"改回未完成":x.task?"標為完成":"不再顯示"}：${esc(x.name)}">
+    <div class="pmeta">${nm}<div class="psub">${x.courseId?`<span class="tag course">${esc(cname(x.courseId))}</span>`:""}${kindTag}
+      <span>${esc(fmtDate(x.due,{allDay:x.allDay}))}</span>${x.note?`<span>${esc(x.note)}</span>`:""}</div></div>
+    <div class="pright">${pill}${canSubmit(x)?`<button class="btn small" data-act="submit" data-id="${esc(x.id)}">繳交</button>`:""}
+      ${x.done&&x.src==="c"?`<button class="linkbtn" data-act="delcustom" data-id="${esc(x.id)}">刪除</button>`:""}</div>
+  </div>`}
+function todoHTML(open,done,t){
+  const today=dayKey(t),tom=dayKey(t+86400),weekEnd=startOfDay(t)+7*86400;
+  const g={over:[],today:[],tom:[],week:[],later:[]};
+  for(const x of open){ if(x.due<=t&&x.task) g.over.push(x); else if(dayKey(x.due)===today) g.today.push(x);
+    else if(dayKey(x.due)===tom) g.tom.push(x); else if(x.due<weekEnd) g.week.push(x); else g.later.push(x)}
+  const block=(k,title)=>g[k].length?`<div class="group-label ${k}">${title}<span class="n">${g[k].length} 項</span></div><div class="plist">${g[k].map(x=>itemHTML(x,t)).join("")}</div>`:"";
+  let h=block("over","已逾期")+block("today","今天")+block("tom","明天")+block("week","這 7 天")+block("later","之後");
+  if(!open.length) h=`<div class="empty"><span class="em">🌿</span>${S.filter.size?"這些課目前沒有待辦。":"目前沒有待辦。新的作業、測驗和公告裡的日期都會自動出現在這裡。"}</div>`;
+  if(done.length) h+=`<div class="group-label">已完成<span class="n"><button class="linkbtn" data-act="showdone">${S.showDone?"收起":"顯示 "+done.length+" 項"}</button></span></div>
+    ${S.showDone?`<div class="plist">${done.map(x=>itemHTML(x,t)).join("")}</div>`:""}`;
+  return h}
+function newsHTML(posts){
+  if(!posts.length) return `<div class="empty"><span class="em">📭</span>${S.filter.size?"這些課目前沒有公告。":"目前沒有公告。"}</div>`;
+  return posts.map(p=>{
+    const op=S.open.has(p.id), dates=findDates(p.text,p.time), url=safeUrl(p.url), long=p.text.length>90||p.text.split("\n").length>3;
+    return `<article class="post cc${op?" open":""}" style="${cbStyle(p.courseId)}">
+      <div class="hd"><span class="tag course">${esc(cname(p.courseId))}</span>${isNew(p)?`<span class="new">新</span>`:""}${p.pinned?`<span class="tag">置頂</span>`:""}
+        ${!p.news?`<span class="tag">${esc(p.forum)}</span>`:""}<span class="when" title="${esc(fmtDate(p.time))}">${esc(p.author?p.author+"　":"")}${esc(ago(p.time))}</span></div>
+      <h4>${esc(p.title)}</h4>${p.text?`<div class="body">${esc(p.text)}</div>`:""}
+      <div class="ft">${dates.map(d=>`<button class="datechip" data-act="gocal" data-ts="${d.ts}" title="在行事曆上看">📅 ${esc(fmtDate(d.ts,{allDay:d.allDay}))}</button>`).join("")}
+        ${long?`<button class="linkbtn" data-act="expand" data-id="${esc(p.id)}">${op?"收起":"展開全文"}</button>`:""}
+        ${p.att?`<span class="tag">附件 ${p.att} 個</span>`:""}<span class="sp"></span>
+        ${url?`<a class="linkbtn" href="${esc(url)}" target="_blank" rel="noopener" data-act="markread" data-id="${esc(p.id)}">在 Moodle 開啟</a>`:""}</div>
+    </article>`}).join("")}
+
+function calHTML(all,t){
+  if(!S.cal){const d=new Date();S.cal={y:d.getFullYear(),m:d.getMonth()}}
+  if(!S.calSel) S.calSel=dayKey(t);
+  const {y,m}=S.cal, first=new Date(y,m,1), start=new Date(y,m,1-first.getDay());
+  const weeks=Math.ceil((first.getDay()+new Date(y,m+1,0).getDate())/7);
+  const by=new Map(); for(const x of all){const k=dayKey(x.due);if(!by.has(k))by.set(k,[]);by.get(k).push(x)}
+  let cells="";
+  for(let i=0;i<weeks*7;i++){
+    const d=new Date(start);d.setDate(start.getDate()+i);const k=dayKey(d/1000), list=(by.get(k)||[]);
+    const cls=["tt-cell",d.getMonth()!==m?"out":"",k===dayKey(t)?"today":"",k===S.calSel?"sel":""].join(" ");
+    cells+=`<button class="${cls}" data-act="pickday" data-k="${k}" aria-label="${d.getMonth()+1} 月 ${d.getDate()} 日，${list.length} 件事">
+      <span class="dn">${d.getDate()}</span>
+      ${list.slice(0,3).map(x=>`<span class="tt-block cc${x.task?"":" evt"}${x.done?" done":""}" style="${cbStyle(x.courseId)}">${esc(x.allDay||!x.task&&x.src==="p"&&x.allDay?"":hm(x.due)+" ")}${esc(x.name)}</span>`).join("")}
+      ${list.length>3?`<span class="tt-more">還有 ${list.length-3} 件</span>`:""}
+      ${list.length?`<span class="dots">${list.slice(0,4).map(x=>`<i class="cc" style="${cbStyle(x.courseId)}"></i>`).join("")}</span>`:""}
+    </button>`}
+  const sel=by.get(S.calSel)||[], sy=Math.floor(S.calSel/10000), sm=Math.floor(S.calSel/100)%100, sd=S.calSel%100, sdate=new Date(sy,sm-1,sd);
+  const ids=S.data.selected||[];
+  return `<div class="panel">
+    <div class="cal-head"><h2>${y} 年 ${m+1} 月</h2>
+      <button class="btn ghost small" data-act="mon" data-d="-1" aria-label="上個月">‹</button>
+      <button class="btn ghost small" data-act="mon" data-d="0">今天</button>
+      <button class="btn ghost small" data-act="mon" data-d="1" aria-label="下個月">›</button></div>
+    <div class="tt-grid">${[...WK].map((w,i)=>`<div class="tt-dh${i===0||i===6?" we":""}">${w}</div>`).join("")}${cells}</div>
+    <div class="cat-legend">${ids.map(id=>`<span class="cc" style="${cbStyle(id)}"><i></i>${esc(cname(id))}</span>`).join("")}
+      <span class="cc" style="--cb:${GRAY}"><i class="d"></i>虛線是活動（公告提到、課程行事曆）</span></div>
+  </div>
+  <div class="day-panel"><div class="group-label">${sdate.getMonth()+1}/${sdate.getDate()}（${WK[sdate.getDay()]}）<span class="n">${sel.length} 件</span></div>
+    ${sel.length?`<div class="plist">${sel.map(x=>itemHTML(x,t)).join("")}</div>`:`<div class="empty">這天沒有安排。</div>`}</div>`}
+
+function setupHTML(){
+  if(PREVIEW) return `<div class="setup panel"><h2>所有課的作業和公告，放在同一頁</h2><p class="lead">這是預覽版，連不到 Moodle，只能看範例資料。</p><button class="btn" data-act="demo">看範例</button></div>`;
+  return `<div class="setup panel">
+    <h2>所有課的作業和公告，放在同一頁</h2>
+    <p class="lead">連上你的 Moodle 之後，這裡會列出每一科還沒交的作業和剩下的時間、所有課的公告，還有一個行事曆。</p>
+    <ol class="steps"><li><b>1</b><span>先用 Moodle App 登入過一次（做過就跳過）。</span></li>
+      <li><b>2</b><span>打開 <a href="${esc(base())}/user/managetoken.php" target="_blank" rel="noopener">Moodle 的安全金鑰頁面</a>，複製「Moodle mobile web service」那一列的金鑰。</span></li>
+      <li><b>3</b><span>貼到下面，按「連線」。</span></li></ol>
+    <form id="setup-form" autocomplete="off">
+      <label class="field" for="tok">Moodle 金鑰</label>
+      <input class="input" id="tok" type="password" autocapitalize="off" spellcheck="false" placeholder="一串英文和數字" required>
+      ${S.err?`<p class="err-t" role="alert">${esc(S.err)}</p>`:""}
+      <details style="margin:14px 0 0;font-size:13px;color:var(--ink-soft)"><summary>不是成大？</summary>
+        <label class="field" for="murl" style="margin-top:10px">Moodle 網址</label><input class="input" id="murl" type="url" value="${esc(S.cfg.url)}"></details>
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><button class="btn" type="submit"${S.loading?" disabled":""}>${S.loading?"連線中…":"連線"}</button>
+        <button class="btn ghost" type="button" data-act="demo">先看範例</button></div>
+    </form>
+    <p class="note">金鑰只存在這台裝置的瀏覽器裡，直接用來向 Moodle 讀資料和繳交作業，不會傳到其他地方。加到 iPhone 主畫面後要再貼一次。</p>
+  </div>`}
+
+/* ---------- 對話框 ---------- */
+function renderLayer(){
+  const L=$("#layer"); if(!S.modal){L.innerHTML="";return}
+  let inner="";
+  if(S.modal==="add") inner=`<h3>新增待辦</h3><p class="hint">只會存在這台裝置，不會改到 Moodle。</p>
+    <form id="add-form"><div class="fgroup"><label class="field" for="a-t">要做什麼</label><input class="input" id="a-t" required maxlength="120" placeholder="例如：印期中考小抄"></div>
+      <div class="fgroup"><label class="field" for="a-d">期限</label><input class="input" id="a-d" type="datetime-local" required value="${(()=>{const d=new Date(Date.now()+86400000);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T23:59`})()}"></div>
+      <div class="fgroup"><label class="field" for="a-c">課程</label><select class="input" id="a-c"><option value="0">不屬於任何課</option>${(S.data.selected||[]).map(id=>`<option value="${id}">${esc(cname(id))}</option>`).join("")}</select></div>
+      <div class="row"><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">新增</button></div></form>`;
+  if(S.modal==="settings"){
+    const all=(S.data.courses||[]).slice().sort((a,b)=>(b.startdate-a.startdate)||a.fullname.localeCompare(b.fullname)), sel=new Set(S.data.selected||[]);
+    inner=`<h3>設定</h3><p class="hint">${S.demo?"目前顯示的是範例資料。":`已連線：${esc(S.data.user)}`}</p>
+      ${S.demo?"":`<form id="set-form"><label class="field">要顯示的課</label><div class="cl">${all.map(c=>`<label class="cc" style="--cb:${sel.has(c.id)?colorOf(c.id):"transparent"}">
+        <input type="checkbox" class="chk" name="c" value="${c.id}" ${sel.has(c.id)?"checked":""}><i></i><span>${esc(c.fullname)}</span>
+        <small>${c.startdate?new Date(c.startdate*1000).getFullYear()+"/"+(new Date(c.startdate*1000).getMonth()+1):""}</small></label>`).join("")}</div>
+        <label class="cl" style="margin:0"><label><input type="checkbox" class="chk" id="s-all" ${S.cfg.allForums?"checked":""}>除了公告，也顯示一般討論區的貼文</label></label>
+        <div class="row"><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">儲存</button></div></form>`}
+      <div class="row" style="justify-content:flex-start;border-top:1px solid var(--line);padding-top:16px">
+        ${S.demo?(PREVIEW?`<button class="btn ghost" data-act="close">關閉</button>`:`<button class="btn" data-act="logout">連上我的 Moodle</button>`):`<button class="btn danger" data-act="logout">登出並清除這台裝置的資料</button>`}</div>`}
+  if(S.modal==="submit") inner=submitHTML();
+  L.innerHTML=`<div class="modal-bg" data-act="close"><div class="modal" role="dialog" aria-modal="true">${inner}</div></div>`;
+  const f=L.querySelector("input:not([type=checkbox]):not([type=file]),select,textarea"); if(f&&S.modal!=="submit") setTimeout(()=>f.focus(),30)}
+
+/* ---------- 繳交作業 ---------- */
+const ST={new:"還沒交",draft:"草稿（還沒送出）",submitted:"已繳交",reopened:"老師開放重交"};
+async function openSubmit(id){
+  const x=allItems().find(i=>i.id===id)||(S.data.events||[]).find(i=>i.id===id); if(!x) return;
+  S.sub={x,loading:true,files:[],text:"",origText:"",origHtml:"",stmt:false,busy:false,err:"",doneMsg:""}; S.modal="submit"; renderLayer();
+  try{
+    if(S.demo){await new Promise(r=>setTimeout(r,300));
+      Object.assign(S.sub,{a:{intro:"請上傳 .zip，內含程式碼與 README。檔名格式：學號_HW2.zip",drafts:true,stmtReq:true,stmtText:"這份作業是我自己完成的，除了已標明引用的部分。",
+        fileOn:true,textOn:false,maxFiles:1,maxBytes:20*1048576,types:".zip"},st:{status:"new",canedit:true,cansubmit:true,files:[],locked:false}})}
+    else{
+      const [ar,sr]=await Promise.all([ws("mod_assign_get_assignments",{courseids:[x.courseId]}),ws("mod_assign_get_submission_status",{assignid:x.inst})]);
+      const a=(ar.courses||[]).flatMap(c=>c.assignments||[]).find(a=>a.id===x.inst)||{};
+      const cfg=(p,n)=>{const c=(a.configs||[]).find(c=>c.plugin===p&&c.name===n&&(c.subtype==="assignsubmission"||!c.subtype));return c?c.value:null};
+      const la=sr.lastattempt||{}, sub=la.submission||(la.teamsubmission)||{}, plugins=sub.plugins||[];
+      const files=plugins.filter(p=>p.type==="file").flatMap(p=>(p.fileareas||[]).flatMap(f=>f.files||[])).map(f=>({name:f.filename,size:f.filesize}));
+      const ed=plugins.filter(p=>p.type==="onlinetext").flatMap(p=>p.editorfields||[])[0];
+      const types=(cfg("file","filetypeslist")||"").split(/[,;\s]+/).filter(s=>/^\.[a-z0-9]+$/i.test(s)).join(",");
+      S.sub.a={intro:htmlToText(a.intro),drafts:!!+a.submissiondrafts,stmtReq:!!+a.requiresubmissionstatement,stmtText:htmlToText(a.submissionstatement)||"這份作業是我自己完成的，除了已標明引用的部分。",
+        fileOn:cfg("file","enabled")==="1",textOn:cfg("onlinetext","enabled")==="1",maxFiles:+cfg("file","maxfilesubmissions")||0,
+        maxBytes:+cfg("file","maxsubmissionsizebytes")||+a.maxattachments||0,types};
+      S.sub.st={status:sub.status||"new",canedit:!!la.canedit,cansubmit:!!la.cansubmit,files,locked:!!la.locked,graded:la.gradingstatus==="graded"};
+      if(ed){S.sub.origHtml=ed.text||"";S.sub.origText=S.sub.text=htmlToText(ed.text)}
+    }
+  }catch(e){S.sub.err=AUTH.has(e.code)?"金鑰失效了，請重新連線。":"讀不到這份作業的資料："+e.message}
+  S.sub.loading=false; if(S.modal==="submit") renderLayer()}
+function submitHTML(){
+  const s=S.sub, x=s.x, url=safeUrl(x.url);
+  const head=`<div class="cc" style="${cbStyle(x.courseId)}"><span class="tag course">${esc(cname(x.courseId))}</span></div>
+    <h3 style="margin-top:8px">${esc(x.name)}</h3><p class="hint" style="margin-bottom:0">${esc(fmtDate(x.due))} 截止，${esc(remain(x.due-now()))}</p>`;
+  if(s.loading) return head+`<p class="hint" style="margin-top:16px">讀取作業資料中…</p>`;
+  if(s.doneMsg) return head+`<div class="okbox" style="margin-top:16px">${esc(s.doneMsg)}</div><div class="row"><button class="btn" data-act="close">好</button></div>`;
+  const moodle=url?`<a class="btn ghost" href="${esc(url)}" target="_blank" rel="noopener">在 Moodle 開啟</a>`:"";
+  if(s.err&&!s.a) return head+`<div class="warnbox">${esc(s.err)}</div><div class="row">${moodle}<button class="btn ghost" data-act="close">關閉</button></div>`;
+  const a=s.a, st=s.st;
+  const status=`<div class="status"><span class="tag">${esc(ST[st.status]||st.status)}</span>${st.graded?`<span class="tag">已評分</span>`:""}${a.drafts?`<span class="tag">要按「送出」才算交</span>`:""}</div>`;
+  const intro=a.intro?`<div class="intro">${esc(a.intro)}</div>`:"";
+  if(!st.canedit&&!(a.drafts&&st.cansubmit&&st.status==="draft")) return head+status+intro+
+    `<div class="warnbox">${st.status==="submitted"?"你已經交了，這份作業目前不能再修改。":"這份作業目前不能在這裡繳交（可能已截止或被鎖定）。"}</div><div class="row">${moodle}<button class="btn ghost" data-act="close">關閉</button></div>`;
+  let body="";
+  if(a.fileOn){
+    const lim=[a.maxFiles?`最多 ${a.maxFiles} 個檔案`:"",a.maxBytes?`每個 ${fsize(a.maxBytes)} 以內`:"",a.types?`格式 ${a.types}`:""].filter(Boolean).join("，");
+    body+=`<div class="fgroup"><label class="field">檔案${lim?`<span style="font-weight:500;color:var(--ink-faint)">　${esc(lim)}</span>`:""}</label>
+      ${st.files.length?`<div class="files">${st.files.map(f=>`<div class="file"><span>${esc(f.name)}</span><small>目前在 Moodle 上・${esc(fsize(f.size))}</small></div>`).join("")}</div>`:""}
+      <label class="drop" id="drop" style="margin-top:8px">${s.files.length?"再加檔案":"點這裡選檔案，或把檔案拖進來"}<input type="file" id="fpick" ${a.maxFiles!==1?"multiple":""} ${a.types?`accept="${esc(a.types)}"`:""}></label>
+      ${s.files.length?`<div class="files">${s.files.map((f,i)=>`<div class="file"><span>${esc(f.name)}</span><small>${esc(fsize(f.size))}</small><button class="linkbtn" data-act="rmfile" data-i="${i}" aria-label="移除 ${esc(f.name)}">移除</button></div>`).join("")}</div>`:""}
+      ${s.files.length&&st.files.length?`<div class="warnbox">新選的檔案會取代 Moodle 上原本的 ${st.files.length} 個檔案。</div>`:""}
+    </div>`}
+  if(a.textOn) body+=`<div class="fgroup"><label class="field" for="otext">線上文字</label><textarea class="input" id="otext" placeholder="直接在這裡打">${esc(s.text)}</textarea></div>`;
+  if(!a.fileOn&&!a.textOn) body+=`<div class="warnbox">這份作業不用在線上繳交東西，或是用了這裡不支援的方式。</div>`;
+  const willFinal=a.drafts;
+  if(willFinal&&a.stmtReq) body+=`<label class="stmt"><input type="checkbox" class="chk" id="stmt" ${s.stmt?"checked":""}><span>${esc(a.stmtText)}</span></label>`;
+  const hasNew=s.files.length||(a.textOn&&s.text.trim()!==s.origText.trim());
+  const hasAny=hasNew||st.files.length||(a.textOn&&s.origText.trim());
+  const ok=(a.fileOn||a.textOn)&&hasAny&&(!willFinal||!a.stmtReq||s.stmt)&&!s.busy;
+  return head+status+intro+body+(s.err?`<div class="warnbox">${esc(s.err)}</div>`:"")+
+    `<p class="hint" style="margin:12px 0 0">${s.x.due<now()?"已經過了截止時間，Moodle 可能會標成遲交。":""}${willFinal?"按「送出」後老師就會看到，之後不能再修改。":s.x.due<now()?"":"繳交後，截止前都還可以回來重交。"}</p>
+    <div class="row">${moodle}${willFinal&&hasNew?`<button class="btn ghost" data-act="dosubmit" data-final="0" ${s.busy||!hasNew?"disabled":""}>只存草稿</button>`:""}
+      <button class="btn" data-act="dosubmit" data-final="1" ${ok?"":"disabled"}>${s.busy?"處理中…":willFinal?"送出":"繳交"}</button></div>`}
+async function doSubmit(final){
+  const s=S.sub,a=s.a,st=s.st; if(s.busy) return;
+  const t=$("#otext"); if(t) s.text=t.value;
+  // 檢查
+  if(a.maxFiles&&s.files.length>a.maxFiles){s.err=`最多只能交 ${a.maxFiles} 個檔案。`;return renderLayer()}
+  const big=s.files.find(f=>a.maxBytes&&f.size>a.maxBytes); if(big){s.err=`「${big.name}」超過 ${fsize(a.maxBytes)}。`;return renderLayer()}
+  const textChanged=a.textOn&&s.text.trim()!==s.origText.trim();
+  if(a.fileOn&&!s.files.length&&st.files.length&&textChanged){s.err="這裡沒辦法只改文字又保留 Moodle 上原本的檔案，請重新選擇要交的檔案，或到 Moodle 網頁上修改。";return renderLayer()}
+  s.busy=true; s.err=""; renderLayer();
+  try{
+    if(S.demo){await new Promise(r=>setTimeout(r,700))}
+    else{
+      const pd={};
+      if(s.files.length||textChanged){
+        if(a.fileOn){let item=0; for(const f of s.files) item=await uploadFile(f,item); if(s.files.length||!st.files.length) pd.files_filemanager=item}
+        if(a.textOn) pd.onlinetext_editor={text:textChanged?textToHtml(s.text):s.origHtml,format:1,itemid:0};
+        const w=await ws("mod_assign_save_submission",{assignmentid:s.x.inst,plugindata:pd});
+        if(Array.isArray(w)&&w.length) throw new MErr("warn",w.map(x=>x.message||x.item).join("；"));
+      }
+      if(final&&a.drafts){
+        const w=await ws("mod_assign_submit_for_grading",{assignmentid:s.x.inst,acceptsubmissionstatement:s.stmt?1:0});
+        if(Array.isArray(w)&&w.length) throw new MErr("warn",w.map(x=>x.message||x.item).join("；"));
+      }
+    }
+    s.busy=false;
+    s.doneMsg=S.demo?"範例模式：不會真的繳交。正式版這時就已經交到 Moodle 了。":final||!a.drafts?"已交到 Moodle 了！可以按「在 Moodle 開啟」確認。":"已存成草稿，記得之後要回來按「送出」。";
+    renderLayer(); if(!S.demo) refresh({quiet:true});
+  }catch(e){s.busy=false;s.err=(AUTH.has(e.code)?"金鑰失效了，請重新連線。":"沒有交成功："+e.message);renderLayer()}}
+
+/* ---------- toast ---------- */
+let toastTimer;
+function toast(msg,undo){const el=$("#toast");clearTimeout(toastTimer);
+  el.innerHTML=esc(msg)+(undo?`<button type="button">復原</button>`:""); if(undo) el.querySelector("button").onclick=()=>{undo();el.classList.remove("show")};
+  el.classList.add("show"); toastTimer=setTimeout(()=>el.classList.remove("show"),undo?6000:3200)}
+
+/* ---------- 更新資料 ---------- */
+async function refresh({quiet=false}={}){
+  if(S.demo){S.data=demoData();render();return}
+  if(S.loading||!S.cfg.token) return;
+  S.loading=true; if(!quiet) render();
+  try{
+    const d=await fetchAll(); S.data=d; S.err="";
+    if(S.seen==null) S.seen=d.posts.map(p=>p.id);
+    else {const cur=new Set(d.posts.map(p=>p.id));S.seen=S.seen.filter(id=>cur.has(id)).concat(S.seen.filter(id=>!cur.has(id)).slice(-300))}
+    LS.set("seen",S.seen);
+    const ids=new Set(allItems().map(x=>x.id)); S.hidden=new Set([...S.hidden].filter(id=>ids.has(id)||!/^[ekp]/.test(id))); LS.set("hidden",[...S.hidden]);
+    LS.set("data",d);
+  }catch(e){
+    if(AUTH.has(e.code)){S.err=S.data?"Moodle 不接受這把金鑰了（可能過期）。請到設定裡登出，再貼一次新的金鑰。":"這把金鑰不對，或已經過期。請再複製一次。"}
+    else S.err=S.data?`${e.message}，畫面上是 ${ago(S.data.fetched)} 的資料。`:`${e.message}。請確認網路，或稍後再試。`;
+  }finally{S.loading=false;render()}}
+
+/* ---------- 事件 ---------- */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-act]"); if(!el) return;
+  const a=el.dataset.act;
+  if(a==="close"){if(e.target!==el) return; if(S.sub&&S.sub.busy) return; S.modal=null;S.sub=null;return renderLayer()}
+  if(a==="refresh") return refresh();
+  if(a==="settings"){S.modal="settings";return renderLayer()}
+  if(a==="add"){S.modal="add";return renderLayer()}
+  if(a==="view"){document.body.dataset.view=el.dataset.v;window.scrollTo({top:0});return render()}
+  if(a==="filter"){if(el.dataset.id==="all") S.filter.clear(); else {const id=+el.dataset.id;S.filter.has(id)?S.filter.delete(id):S.filter.add(id)} return render()}
+  if(a==="showdone"){S.showDone=!S.showDone;return render()}
+  if(a==="expand"){const id=el.dataset.id;S.open.has(id)?S.open.delete(id):S.open.add(id);markRead(id);return render()}
+  if(a==="markread"){markRead(el.dataset.id);setTimeout(render,50);return}
+  if(a==="readall"){S.seen=[...new Set([...(S.seen||[]),...S.data.posts.map(p=>p.id)])];LS.set("seen",S.seen);return render()}
+  if(a==="gocal"){const d=new Date(+el.dataset.ts*1000);S.cal={y:d.getFullYear(),m:d.getMonth()};S.calSel=dayKey(+el.dataset.ts);document.body.dataset.view="cal";window.scrollTo({top:0});return render()}
+  if(a==="pickday"){S.calSel=+el.dataset.k;return render()}
+  if(a==="mon"){const dd=+el.dataset.d; if(!dd){const n=new Date();S.cal={y:n.getFullYear(),m:n.getMonth()};S.calSel=dayKey(now())} else {const n=new Date(S.cal.y,S.cal.m+dd,1);S.cal={y:n.getFullYear(),m:n.getMonth()}} return render()}
+  if(a==="delcustom"){S.custom=S.custom.filter(x=>x.id!==el.dataset.id);LS.set("custom",S.custom);return render()}
+  if(a==="submit") return openSubmit(el.dataset.id);
+  if(a==="rmfile"){S.sub.files.splice(+el.dataset.i,1);return renderLayer()}
+  if(a==="dosubmit") return doSubmit(el.dataset.final==="1");
+  if(a==="demo"){S.demo=true;S.err="";S.data=demoData();return render()}
+  if(a==="logout"){if(S.demo){S.demo=false;S.data=null;S.modal=null;return render()}
+    ["cfg","data","custom","hidden","seen","colors","hinted"].forEach(LS.del); location.reload()}
+});
+document.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.dataset&&el.dataset.act==="toggle"){
+    const id=el.dataset.id, src=el.dataset.src;
+    if(src==="c"){const c=S.custom.find(x=>x.id===id);if(c){c.done=el.checked;LS.set("custom",S.custom)} return render()}
+    el.checked?S.hidden.add(id):S.hidden.delete(id); LS.set("hidden",[...S.hidden]); render();
+    if(el.checked){toast(src==="m"&&!S.hinted?"已標為完成。這只記在這裡，Moodle 上還是要真的交。":src==="m"?"已標為完成":"好，這件不再顯示",()=>{S.hidden.delete(id);LS.set("hidden",[...S.hidden]);render()});
+      if(src==="m"&&!S.hinted){S.hinted=true;LS.set("hinted",true)}}
+    return}
+  if(el.id==="fpick"){S.sub.files.push(...el.files);S.sub.err="";if(S.sub.a.maxFiles===1)S.sub.files=S.sub.files.slice(-1);return renderLayer()}
+  if(el.id==="stmt"){S.sub.stmt=el.checked;const t=$("#otext");if(t)S.sub.text=t.value;return renderLayer()}
+});
+document.addEventListener("input",e=>{if(e.target.id==="otext"&&S.sub){S.sub.text=e.target.value;const b=document.querySelector('[data-act="dosubmit"][data-final="1"]');
+  if(b&&!S.sub.busy){const a=S.sub.a,has=S.sub.files.length||S.sub.text.trim()||S.sub.st.files.length;b.disabled=!(has&&(!a.drafts||!a.stmtReq||S.sub.stmt))}}});
+["dragover","dragleave","drop"].forEach(tp=>document.addEventListener(tp,e=>{
+  const d=e.target.closest&&e.target.closest("#drop"); if(!d) return; e.preventDefault();
+  if(tp==="dragover") d.classList.add("over"); else d.classList.remove("over");
+  if(tp==="drop"&&e.dataTransfer.files.length){S.sub.files.push(...e.dataTransfer.files);if(S.sub.a.maxFiles===1)S.sub.files=S.sub.files.slice(-1);renderLayer()}}));
+function markRead(id){if(S.seen&&!S.seen.includes(id)){S.seen.push(id);LS.set("seen",S.seen)}}
+document.addEventListener("submit",async e=>{
+  e.preventDefault(); const f=e.target;
+  if(f.id==="setup-form"){
+    const tok=$("#tok").value.trim(),u=$("#murl")?$("#murl").value.trim():S.cfg.url; if(!tok) return;
+    S.cfg.token=tok; S.cfg.url=safeUrl(u)?u.replace(/\/+$/,""):DEFAULT_URL; S.cfg.courses=null; S.err=""; saveCfg();
+    await refresh(); if(!S.data){S.cfg.token="";saveCfg();render()}}
+  if(f.id==="add-form"){
+    const title=$("#a-t").value.trim(),v=$("#a-d").value,cid=+$("#a-c").value,due=Math.floor(new Date(v)/1000); if(!title||!due) return;
+    S.custom.push({id:"c"+Date.now(),title,due,allDay:false,courseId:cid,done:false}); LS.set("custom",S.custom); S.modal=null; render(); toast("已新增待辦")}
+  if(f.id==="set-form"){
+    const ids=[...f.querySelectorAll('input[name="c"]:checked')].map(i=>+i.value); if(!ids.length){toast("至少要選一門課");return}
+    S.cfg.courses=ids; S.cfg.allForums=$("#s-all").checked; saveCfg(); S.filter.clear(); S.modal=null; renderLayer(); await refresh()}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.modal&&!(S.sub&&S.sub.busy)){S.modal=null;S.sub=null;renderLayer()}});
+
+/* 倒數 */
+let tick=0;
+setInterval(()=>{
+  const t=now(),clk=$(".next .clock");
+  if(clk){const sec=+clk.dataset.due-t; if(sec<=0) return render(); clk.innerHTML=clockHTML(sec)}
+  if(++tick%30===0) document.querySelectorAll(".rem[data-due]").forEach(p=>{const s=+p.dataset.due-t;p.textContent=remain(s);p.className="rem "+urgency(s)});
+},1000);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&S.data&&!S.demo&&now()-S.data.fetched>300) refresh({quiet:true})});
+
+/* 啟動 */
+if(PREVIEW){S.demo=true;S.data=demoData()}
+else if(S.cfg.token&&S.data){render();refresh({quiet:true})}
+else if(S.cfg.token){S.data=null;refresh()}
+else S.data=null;
+render();
+</script>
+</body>
+</html>
