@@ -93,9 +93,10 @@ a{color:inherit}
 .section-head h2{font-size:19px}
 .section-head .spacer{flex:1}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
-.cols{display:grid;gap:30px}
+.cols{display:grid;gap:30px;grid-template-columns:minmax(0,1fr)}
+.cols>section{min-width:0}
 @media (min-width:820px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);align-items:start}}
-@media (max-width:819px){ body[data-view="todo"] #col-news, body[data-view="news"] #col-todo{display:none} }
+@media (max-width:819px){ body[data-view="todo"] #col-news, body[data-view="news"] #col-todo{display:none} body:not([data-view="todo"]) .hero{display:none} }
 body[data-view="cal"] .cols, body:not([data-view="cal"]) #view-cal{display:none}
 .banner{border-radius:var(--radius-s);padding:10px 16px;font-size:13.5px;margin:0 0 16px;background:var(--warm-soft);color:var(--ink)}
 .banner.err{background:var(--danger-soft)}
@@ -167,7 +168,11 @@ body[data-view="cal"] .cols, body:not([data-view="cal"]) #view-cal{display:none}
 .chk:hover{border-color:var(--accent)}
 .chk:checked{background:var(--accent);border-color:var(--accent)}
 .chk:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
-.pmeta{min-width:0}
+.pmeta{min-width:0;cursor:pointer;border-radius:8px}
+.pmeta:hover .pname{text-decoration:underline;text-underline-offset:3px}
+.pnote{font-size:12.5px;color:var(--ink-soft);margin-top:5px;background:var(--bg);border-radius:7px;padding:3px 8px;display:inline-block;white-space:pre-line;overflow-wrap:anywhere}
+.tag.u{background:var(--cf);color:var(--ci)}
+.moved{font-size:11px;color:var(--warm-ink)}
 .pname{font-weight:600;font-size:14.5px;line-height:1.45;overflow-wrap:anywhere;text-decoration:none;display:block}
 a.pname:hover{text-decoration:underline;text-underline-offset:3px}
 .psub{font-size:12px;color:var(--ink-faint);margin-top:4px;display:flex;gap:6px 8px;flex-wrap:wrap;align-items:center}
@@ -180,18 +185,29 @@ a.pname:hover{text-decoration:underline;text-underline-offset:3px}
 .empty .em{font-size:28px;display:block;margin-bottom:8px;opacity:.7}
 
 /* ---------- posts ---------- */
-.post{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-soft);padding:16px 18px;position:relative;overflow:hidden}
-.post+.post{margin-top:10px}
-.post::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--cb)}
-.post .hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--ink-faint)}
-.post .new{background:var(--danger);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:0 8px;line-height:19px}
+.post{--pt:color-mix(in srgb,var(--cb) 13%,var(--card));background:var(--pt);border:1px solid color-mix(in srgb,var(--cb) 45%,var(--line));border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px 18px 14px 22px;position:relative;overflow:hidden;min-width:0;max-width:100%}
+.post+.post{margin-top:12px}
+.post::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--cb)}
+.post .hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
+.post .hd .tag.course{background:var(--cb);color:#fff}
+@media (prefers-color-scheme:dark){.post .hd .tag.course{color:#23211e}}
+.post .new{background:var(--danger-ink);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:0 9px;line-height:20px}
 .post .when{margin-left:auto;white-space:nowrap}
-.post h4{font-size:15.5px;margin:8px 0 4px;line-height:1.45;overflow-wrap:anywhere}
-.post .body{font-size:13.5px;color:var(--ink-soft);white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.7}
-.post.open .body{display:block;color:var(--ink)}
-.post .ft{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
-.datechip{border:1px dashed color-mix(in srgb,var(--cb) 70%,transparent);background:var(--cf);color:var(--ci);border-radius:9px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.post h4{font-size:16.5px;margin:8px 0 6px;line-height:1.45;overflow-wrap:anywhere;color:var(--dark)}
+.post .body{font-size:14px;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere;word-break:break-word;max-width:100%;line-height:1.75;
+  max-height:calc(1.75em*3);overflow:hidden;position:relative}
+.post .body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.75em;background:linear-gradient(transparent,var(--pt))}
+.post.open .body{max-height:none}
+.post.open .body::after,.post.short .body::after{display:none}
+.post .ft{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.datechip{border:1px solid color-mix(in srgb,var(--cb) 60%,transparent);background:var(--card);color:var(--ci);border-radius:9px;padding:3px 10px;font-size:12.5px;font-weight:700}
 .post .sp{flex:1}
+.post.unread{box-shadow:0 0 0 2px color-mix(in srgb,var(--cb) 55%,transparent),var(--shadow)}
+.post.star{--pt:color-mix(in srgb,var(--cb) 22%,var(--card))}
+.starbtn{border:none;background:transparent;font-size:13px;font-weight:700;color:var(--ink-soft);padding:4px 6px;border-radius:7px}
+.starbtn.on{color:#b8892e}
+.news-sub{font-size:12.5px;color:var(--ink-faint);margin:-8px 0 12px}
 
 /* ---------- calendar ---------- */
 .cal-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -252,6 +268,23 @@ textarea.input{min-height:150px;resize:vertical;line-height:1.6}
 .cl label small{margin-left:auto;color:var(--ink-faint);white-space:nowrap}
 .cl i{width:12px;height:12px;border-radius:4px;background:var(--cb);flex:none}
 
+/* edit / customise */
+.sws{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.sw{width:26px;height:26px;border-radius:8px;border:2px solid transparent;background:var(--cb);padding:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.sw[aria-pressed="true"]{border-color:var(--dark);box-shadow:inset 0 0 0 2px var(--card)}
+.crow{background:var(--bg);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.crow .top{display:flex;gap:10px;align-items:center}
+.crow .top input.input{padding:7px 10px;background:var(--card)}
+.crow .top label{display:flex;align-items:center;gap:8px;flex:none}
+.tagpick{display:flex;flex-wrap:wrap;gap:7px}
+.tagpick button{border:1px solid var(--line-strong);background:var(--card);border-radius:99px;padding:4px 12px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.tagpick button[aria-pressed="true"]{background:var(--cf);color:var(--ci);border-color:transparent}
+.two{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.inline-chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);padding-bottom:10px;white-space:nowrap}
+.src{font-size:12.5px;color:var(--ink-soft);background:var(--bg);border-radius:10px;padding:8px 10px;margin:10px 0 16px;white-space:pre-line;overflow-wrap:anywhere}
+.diag{font-size:12px;color:var(--ink-faint);margin-top:8px}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}
+
 /* ---------- setup ---------- */
 .setup{max-width:540px;margin:6vh auto 40px}
 .setup h2{font-size:24px;line-height:1.35;margin:0 0 8px}
@@ -280,6 +313,8 @@ textarea.input{min-height:150px;resize:vertical;line-height:1.6}
 const PREVIEW = false;           // 範例預覽版會改成 true
 const DEFAULT_URL = "https://moodle.ncku.edu.tw";
 const COLORS = ["#9FB39A","#8FA6C0","#AC9CC4","#CFB391","#CBA79F","#93B5AE","#C9BD9A","#C39AAE","#A7B7D6","#B9A58F"];
+const EXTRA = ["#D9A6A0","#E0B57A","#A3C4A0","#7FA7B8","#B8A6D9","#9E9A93"];
+const SWATCH = COLORS.concat(EXTRA);
 const GRAY = "#B9B4AA";
 const WK = "日一二三四五六";
 const KIND = {assign:"作業",quiz:"測驗",forum:"討論區",lesson:"單元",workshop:"互評",choice:"票選",feedback:"回饋單",questionnaire:"問卷",
@@ -295,6 +330,8 @@ const S = {
   cfg: LS.get("cfg",{url:DEFAULT_URL,token:"",allForums:false,courses:null}),
   data: LS.get("data",null), custom: LS.get("custom",[]), hidden: new Set(LS.get("hidden",[])),
   seen: LS.get("seen",null), colors: LS.get("colors",{}), hinted: LS.get("hinted",false),
+  cp: LS.get("cprefs",{}), edits: LS.get("edits",{}), starred: new Set(LS.get("starred",[])),
+  tags: LS.get("tags",[{id:"t1",name:"重要",color:"#CBA79F"},{id:"t2",name:"要印",color:"#CFB391"},{id:"t3",name:"分組",color:"#8FA6C0"}]), det:null,
   filter: new Set(), open: new Set(), showDone:false, demo:false, loading:false, err:"",
   modal:null, cal:null, calSel:null, sub:null
 };
@@ -326,6 +363,7 @@ function urgency(sec){return sec<0?"over":sec<86400?"hot":sec<3*86400?"warm":"ca
 function shortName(n){
   let s=String(n||"").trim().replace(/^[\[【(（]?\s*\d{3}\s*[-－學年度]*\s*[12上下]?\s*[學期]*\s*[\]】)）]?\s*/,"").replace(/^[A-Z]\d{4,}[-\s]*/,"");
   if(/[一-鿿]/.test(s)) s=s.replace(/\s*[(（][^()（）]*[A-Za-z][^()（）]*[)）]\s*$/,"").replace(/\s+[A-Za-z][A-Za-z0-9 ,.&:'\-()]+$/,"");
+  s=s.replace(/^[_\-－—\s]+/,"");
   return s||String(n||"")}
 function htmlToText(h){
   if(!h) return "";
@@ -338,22 +376,24 @@ function textToHtml(t){return String(t).split(/\n/).map(l=>esc(l)).join("<br>")}
 function fsize(b){return b>=1048576?(b/1048576).toFixed(b>=10485760?0:1)+" MB":Math.max(1,Math.round(b/1024))+" KB"}
 function colorOf(cid){
   if(!cid) return GRAY;
+  if(S.cp[cid]&&S.cp[cid].color) return S.cp[cid].color;
   if(S.colors[cid]==null){const used=new Set(Object.values(S.colors));let i=0;while(used.has(i)&&i<COLORS.length)i++;
     S.colors[cid]=i<COLORS.length?i:Object.keys(S.colors).length%COLORS.length;LS.set("colors",S.colors)}
   return COLORS[S.colors[cid]]}
 function course(cid){return (S.data&&S.data.courses||[]).find(c=>c.id===cid)}
-function cname(cid){const c=course(cid);return c?shortName(c.fullname):(cid?"":"個人")}
+function cname(cid){if(cid&&S.cp[cid]&&S.cp[cid].name) return S.cp[cid].name;const c=course(cid);return c?shortName(c.fullname):(cid?"":"個人")}
+function cleanEv(n){const s=String(n||"").replace(/\s*(規定)?繳交截止通知\s*$/,"").replace(/\s*(規定繳交期限|is due|is due today|截止|到期)\s*$/i,"").trim();return s||String(n||"")}
 
 /* ---------- 公告內文裡的日期 ---------- */
 const RX_YMD=/(\d{3,4})\s*[\/\-.年]\s*(\d{1,2})\s*[\/\-.月]\s*(\d{1,2})\s*[日號]?/g;
 const RX_MD=/(\d{1,2})\s*(?:\/|／|月)\s*(\d{1,2})\s*[日號]?/g;
 const RX_TIME=/^\s*(?:[（(]\s*(?:週|星期|禮拜)?\s*[一二三四五六日天]\s*[)）])?\s*(?:(?:週|星期|禮拜)[一二三四五六日天])?\s*(上午|早上|中午|下午|晚上|傍晚)?\s*(\d{1,2})\s*(?:[:：]\s*(\d{2})|點\s*(半|\d{1,2}\s*分?)?)/;
 function snippetAround(t,idx){
-  let a=idx,b=idx;
-  while(a>0&&!/[。！？!?\n；;]/.test(t[a-1])) a--;
-  while(b<t.length&&!/[。！？!?\n；;]/.test(t[b])) b++;
+  const stop=/[。！？!?\n；;，,]/; let a=idx,b=idx;
+  while(a>0&&!stop.test(t[a-1])) a--; while(b<t.length&&!stop.test(t[b])) b++;
+  if(b-a<8){let a2=a-1; while(a2>0&&!stop.test(t[a2-1])) a2--; if(a2>=0&&a-a2<30) a=a2}
   let s=t.slice(a,b).trim().replace(/^[，,、\s]+/,"");
-  if(s.length>46) s=s.slice(0,46)+"…";
+  if(s.length>40){const rel=idx-a; const st=Math.max(0,Math.min(rel-12,s.length-40)); s=(st?"…":"")+s.slice(st,st+40)+"…"}
   return s}
 function findDates(text,postTs){
   if(!text) return [];
@@ -429,7 +469,7 @@ async function fetchAll(){
     for(let i=0;i<6;i++){const p={timesortfrom:t-21*86400,timesortto:t+150*86400,limitnum:50}; if(after) p.aftereventid=after;
       const r=await ws("core_calendar_get_action_events_by_timesort",p); const ev=r.events||[]; out=out.concat(ev);
       if(ev.length<50) break; after=r.lastid||ev[ev.length-1].id}
-    return out.filter(e=>e.course&&ids.includes(e.course.id)).map(e=>({id:"e"+e.id,name:htmlToText(e.activityname||e.name)||"（未命名）",
+    return out.filter(e=>e.course&&ids.includes(e.course.id)).map(e=>({id:"e"+e.id,name:cleanEv(htmlToText(e.activityname||e.name))||"（未命名）",
       kind:e.modulename||"course",inst:e.instance||0,due:e.timesort,courseId:e.course.id,url:e.url||(e.action&&e.action.url)||"",act:e.action&&e.action.name||""}));
   })().catch(async e=>{
     if(AUTH.has(e.code)) throw e;
@@ -437,11 +477,15 @@ async function fetchAll(){
     return (r.courses||[]).flatMap(c=>(c.assignments||[]).filter(a=>a.duedate>t-7*86400).map(a=>({id:"a"+a.cmid,name:htmlToText(a.name),kind:"assign",inst:a.id,
       due:a.duedate,courseId:c.id,url:`${b}/mod/assign/view.php?id=${a.cmid}`,act:""})));
   }).catch(soft("待辦"));
-  const calP=ws("core_calendar_get_calendar_events",{events:{courseids:ids},options:{userevents:1,siteevents:0,timestart:t-45*86400,timeend:t+150*86400}})
-    .then(r=>(r.events||[]).filter(e=>!e.modulename&&["course","group","user","category"].includes(e.eventtype)).map(e=>({
-      id:"k"+e.id,name:htmlToText(e.name)||"（未命名）",kind:"event",due:e.timestart,allDay:(e.timeduration||0)>=86400&&hm(e.timestart)==="00:00",
-      courseId:ids.includes(e.courseid)?e.courseid:0,note:htmlToText(e.description).slice(0,200),url:`${b}/calendar/view.php?view=day&time=${e.timestart}`})))
-    .catch(soft("課程行事曆"));
+  const diag={};
+  const mapCal=r=>(r.events||[]).filter(e=>!e.modulename&&["course","group","user","category"].includes(e.eventtype)).map(e=>{
+      const cid=e.courseid||(e.course&&e.course.id)||0;
+      return {id:"k"+e.id,name:htmlToText(e.name)||"（未命名）",kind:"event",due:e.timestart,allDay:(e.timeduration||0)>=86400&&hm(e.timestart)==="00:00",
+      courseId:ids.includes(cid)?cid:0,note:htmlToText(e.description).slice(0,200),url:`${b}/calendar/view.php?view=day&time=${e.timestart}`}});
+  const calP=ws("core_calendar_get_calendar_events",{events:{courseids:ids},options:{userevents:1,siteevents:0,timestart:t-45*86400,timeend:t+150*86400}}).then(mapCal)
+    .catch(async e=>{ if(AUTH.has(e.code)&&e.code!=="accessexception") throw e;
+      diag.cal=(e.code||"")+" "+e.message;
+      try{return mapCal(await ws("core_calendar_get_calendar_upcoming_view",{}))}catch(e2){diag.cal2=(e2.code||"")+" "+e2.message;return null}});
   const postP=(async()=>{
     const forums=await ws("mod_forum_get_forums_by_courses",{courseids:ids});
     const use=forums.filter(f=>ids.includes(f.course)&&(S.cfg.allForums||f.type==="news"));
@@ -456,14 +500,14 @@ async function fetchAll(){
   const [events,cal,posts]=await Promise.all([evP,calP,postP]); const prev=S.data||{};
   return {fetched:t,user:info.fullname||"",site:info.sitename||"",
     courses:courses.map(c=>({id:c.id,fullname:htmlToText(c.fullname||c.shortname)||String(c.id),startdate:c.startdate||0})),selected:ids,
-    events:events||prev.events||[],cal:cal||prev.cal||[],posts:posts||prev.posts||[],
+    events:events||prev.events||[],cal:cal||prev.cal||[],posts:posts||prev.posts||[],diag,
     warn:warns.length?[...new Set(warns)].join("、")+"這次沒讀到，顯示的是上次的資料":""}}
 
 /* ---------- 範例資料 ---------- */
 function demoData(){
   const t=now(),H=3600,D=86400,b=DEFAULT_URL;
-  const c=[[9101,"115-1 資料結構 (Data Structures)"],[9102,"115-1 線性代數"],[9103,"115-1 計算機組織"],[9104,"115-1 通識：台灣電影史"],[9105,"115-1 英文寫作（二）"]];
-  const ev=(id,cid,name,kind,due)=>({id:"e"+id,name,kind,inst:id,due:Math.floor(due),courseId:cid,url:b,act:kind==="quiz"?"作答":"繳交"});
+  const c=[[9101,"115-1 資料結構 (Data Structures)"],[9102,"115-1 線性代數"],[9103,"115-1 計算機組織"],[9104,"115-1 _通識：台灣電影史"],[9105,"115-1 英文寫作（二）"]];
+  const ev=(id,cid,name,kind,due)=>({id:"e"+id,name:cleanEv(name),kind,inst:id,due:Math.floor(due),courseId:cid,url:b,act:kind==="quiz"?"作答":"繳交"});
   const ps=(id,cid,title,text,ago_,author,extra={})=>Object.assign({id:"d"+id,courseId:cid,forum:"公告",news:true,title,text,author,time:Math.floor(t-ago_),pinned:false,att:0,url:b},extra);
   const at=(days,h,m)=>{const d=new Date((t+days*D)*1000);d.setHours(h,m,0,0);return d};
   const md=d=>`${d.getMonth()+1}/${d.getDate()}`;
@@ -471,7 +515,7 @@ function demoData(){
   return {fetched:t-4*60,user:"範例同學",site:"國立成功大學 Moodle",selected:c.map(x=>x[0]),
     courses:c.map(([id,fullname])=>({id,fullname,startdate:t-70*D})),
     events:[ev(1,9101,"HW2 二元搜尋樹","assign",t+19*H+42*60),ev(2,9102,"第 9 週線上小考","quiz",t+2*D+5*H),ev(3,9103,"Lab 4：管線化模擬","assign",t+5*D+3*H),
-      ev(4,9102,"習題 3.2–3.5","assign",t-3*H-12*60),ev(5,9105,"Essay 2 初稿","assign",t+11*D),ev(6,9104,"影評心得（一）","assign",t+1*D+20*H),ev(7,9101,"Project 提案書","assign",t+26*D)],
+      ev(4,9102,"習題 3.2–3.5","assign",t-3*H-12*60),ev(5,9105,"Essay 2 初稿 規定繳交截止通知","assign",t+11*D),ev(6,9104,"影評心得（一）","assign",t+1*D+20*H),ev(7,9101,"Project 提案書","assign",t+26*D)],
     cal:[{id:"k1",name:"校外參訪：台積電南科廠",kind:"event",due:Math.floor(visit/1000),allDay:false,courseId:9103,note:"13:30 在系館門口集合",url:b}],
     posts:[
       ps(11,9101,"期中考時間與範圍",`期中考訂於 ${md(exam)}（${WK[exam.getDay()]}）上午 10:10 在 4201 教室，範圍為 Ch1–Ch5。\n可攜帶一張 A4 手寫小抄，請提早 10 分鐘入座。`,3*H,"王老師",{pinned:true}),
@@ -491,8 +535,17 @@ function allItems(){
   for(const k of d.cal||[]) out.push(Object.assign({},k,{src:"k",task:false,done:S.hidden.has(k.id)}));
   for(const p of d.posts||[]) for(const x of findDates(p.text,p.time)){
     const id="p"+p.id.slice(1)+"@"+x.ts;
-    out.push({id,name:x.snip||p.title,kind:"ann",due:x.allDay?startOfDay(x.ts)+86340:x.ts,allDay:x.allDay,courseId:p.courseId,url:p.url,
-      note:"公告：「"+p.title+"」",src:"p",task:false,done:S.hidden.has(id),postId:p.id});
+    out.push({id,name:p.title,kind:"ann",due:x.allDay?startOfDay(x.ts)+86340:x.ts,allDay:x.allDay,courseId:p.courseId,url:p.url,
+      note:x.snip,src:"p",task:false,done:S.hidden.has(id),postId:p.id});
+  }
+  for(const x of out){
+    x.orig={name:x.name,due:x.due,allDay:x.allDay};
+    const ed=S.edits[x.id]; if(!ed) continue;
+    if(ed.name) x.name=ed.name;
+    if(ed.due){x.due=ed.due;x.allDay=!!ed.allDay;x.moved=true}
+    if(ed.memo) x.memo=ed.memo;
+    if(ed.tags) x.tags=ed.tags.filter(t=>S.tags.some(g=>g.id===t));
+    if(x.src==="c"&&ed.courseId!=null) x.courseId=ed.courseId;
   }
   return out.filter(x=>visible(x.courseId)).sort((a,b)=>a.due-b.due)}
 function todoLists(){
@@ -562,7 +615,7 @@ function heroHTML(open,t){
   return `<div class="hero">
     <div class="panel next cc${sec<86400?" hot":""}" style="${cbStyle(next.courseId)}">
       <div class="lab">最近要交<span class="tag course">${esc(cname(next.courseId)||"自己加的")}</span></div>
-      <h2>${esc(next.name)}</h2>
+      <h2 data-act="detail" data-id="${esc(next.id)}" style="cursor:pointer">${esc(next.name)}</h2>${next.memo?`<div class="pnote">📝 ${esc(next.memo)}</div>`:""}
       <div class="clock" data-due="${next.due}">${clockHTML(sec)}</div>
       <div class="dl">${esc(fmtDate(next.due,{allDay:next.allDay}))} 截止</div>
       <div class="acts">${canSubmit(next)?`<button class="btn" data-act="submit" data-id="${esc(next.id)}">繳交</button>`:""}
@@ -583,17 +636,18 @@ function filtersHTML(){
   return `<div class="filters" role="group" aria-label="篩選課程"><button class="chip all" data-act="filter" data-id="all" aria-pressed="${!S.filter.size}">全部</button>
     ${ids.map(id=>`<button class="chip cc" style="${cbStyle(id)}" data-act="filter" data-id="${id}" aria-pressed="${S.filter.has(id)}"><i></i>${esc(cname(id))}</button>`).join("")}</div>`}
 function canSubmit(x){return x.src==="m"&&x.kind==="assign"&&x.inst&&!x.done}
+function tagHTML(ids){return (ids||[]).map(id=>{const g=S.tags.find(g=>g.id===id);return g?`<span class="tag u cc" style="--cb:${g.color}">${esc(g.name)}</span>`:""}).join("")}
 function itemHTML(x,t){
-  const url=safeUrl(x.url), sec=x.due-t;
-  const nm=url?`<a class="pname" href="${esc(url)}" target="_blank" rel="noopener">${esc(x.name)}</a>`:`<span class="pname">${esc(x.name)}</span>`;
+  const sec=x.due-t;
   const kindTag=x.src==="p"?`<span class="tag ann">公告提到</span>`:x.src==="k"?`<span class="tag evt">課程行事曆</span>`:x.src==="c"?`<span class="tag mine">自己加的</span>`:`<span class="tag">${esc(KIND[x.kind]||"活動")}</span>`;
   const pill=x.done?"":x.task?`<span class="rem ${urgency(sec)}" data-due="${x.due}">${esc(remain(sec))}</span>`:`<span class="rem soon">${esc(when(x))}</span>`;
   return `<div class="pitem cc${x.done?" done":""}${x.task?"":" evt"}" style="${cbStyle(x.courseId)}">
     <input type="checkbox" class="chk" data-act="toggle" data-id="${esc(x.id)}" data-src="${x.src}" ${x.done?"checked":""} aria-label="${x.done?"改回未完成":x.task?"標為完成":"不再顯示"}：${esc(x.name)}">
-    <div class="pmeta">${nm}<div class="psub">${x.courseId?`<span class="tag course">${esc(cname(x.courseId))}</span>`:""}${kindTag}
-      <span>${esc(fmtDate(x.due,{allDay:x.allDay}))}</span>${x.note?`<span>${esc(x.note)}</span>`:""}</div></div>
-    <div class="pright">${pill}${canSubmit(x)?`<button class="btn small" data-act="submit" data-id="${esc(x.id)}">繳交</button>`:""}
-      ${x.done&&x.src==="c"?`<button class="linkbtn" data-act="delcustom" data-id="${esc(x.id)}">刪除</button>`:""}</div>
+    <div class="pmeta" data-act="detail" data-id="${esc(x.id)}" role="button" tabindex="0" aria-label="查看和編輯：${esc(x.name)}"><span class="pname">${esc(x.name)}</span>
+      <div class="psub">${x.courseId?`<span class="tag course">${esc(cname(x.courseId))}</span>`:""}${kindTag}${tagHTML(x.tags)}
+      <span>${esc(fmtDate(x.due,{allDay:x.allDay}))}</span>${x.moved?`<span class="moved">已改時間</span>`:""}${x.note?`<span>${esc(x.note)}</span>`:""}</div>
+      ${x.memo?`<div class="pnote">📝 ${esc(x.memo)}</div>`:""}</div>
+    <div class="pright">${pill}${canSubmit(x)?`<button class="btn small" data-act="submit" data-id="${esc(x.id)}">繳交</button>`:""}</div>
   </div>`}
 function todoHTML(open,done,t){
   const today=dayKey(t),tom=dayKey(t+86400),weekEnd=startOfDay(t)+7*86400;
@@ -608,18 +662,19 @@ function todoHTML(open,done,t){
   return h}
 function newsHTML(posts){
   if(!posts.length) return `<div class="empty"><span class="em">📭</span>${S.filter.size?"這些課目前沒有公告。":"目前沒有公告。"}</div>`;
-  return posts.map(p=>{
-    const op=S.open.has(p.id), dates=findDates(p.text,p.time), url=safeUrl(p.url), long=p.text.length>90||p.text.split("\n").length>3;
-    return `<article class="post cc${op?" open":""}" style="${cbStyle(p.courseId)}">
-      <div class="hd"><span class="tag course">${esc(cname(p.courseId))}</span>${isNew(p)?`<span class="new">新</span>`:""}${p.pinned?`<span class="tag">置頂</span>`:""}
+  const list=posts.slice().sort((a,b)=>(S.starred.has(b.id)-S.starred.has(a.id))||(b.time-a.time));
+  return list.map(p=>{
+    const op=S.open.has(p.id), dates=findDates(p.text,p.time), url=safeUrl(p.url), long=p.text.length>80||p.text.split("\n").length>3, st=S.starred.has(p.id), nw=isNew(p);
+    return `<article class="post cc${op?" open":""}${long?"":" short"}${st?" star":""}${nw?" unread":""}" style="${cbStyle(p.courseId)}">
+      <div class="hd"><span class="tag course">${esc(cname(p.courseId))}</span>${nw?`<span class="new">新</span>`:""}${p.pinned?`<span class="tag">置頂</span>`:""}
         ${!p.news?`<span class="tag">${esc(p.forum)}</span>`:""}<span class="when" title="${esc(fmtDate(p.time))}">${esc(p.author?p.author+"　":"")}${esc(ago(p.time))}</span></div>
-      <h4>${esc(p.title)}</h4>${p.text?`<div class="body">${esc(p.text)}</div>`:""}
+      <h4>${st?"★ ":""}${esc(p.title)}</h4>${p.text?`<div class="body">${esc(p.text)}</div>`:""}
       <div class="ft">${dates.map(d=>`<button class="datechip" data-act="gocal" data-ts="${d.ts}" title="在行事曆上看">📅 ${esc(fmtDate(d.ts,{allDay:d.allDay}))}</button>`).join("")}
         ${long?`<button class="linkbtn" data-act="expand" data-id="${esc(p.id)}">${op?"收起":"展開全文"}</button>`:""}
         ${p.att?`<span class="tag">附件 ${p.att} 個</span>`:""}<span class="sp"></span>
+        <button class="starbtn${st?" on":""}" data-act="star" data-id="${esc(p.id)}" aria-pressed="${st}">${st?"★ 已標註":"☆ 標註"}</button>
         ${url?`<a class="linkbtn" href="${esc(url)}" target="_blank" rel="noopener" data-act="markread" data-id="${esc(p.id)}">在 Moodle 開啟</a>`:""}</div>
     </article>`}).join("")}
-
 function calHTML(all,t){
   if(!S.cal){const d=new Date();S.cal={y:d.getFullYear(),m:d.getMonth()}}
   if(!S.calSel) S.calSel=dayKey(t);
@@ -681,17 +736,57 @@ function renderLayer(){
       <div class="row"><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">新增</button></div></form>`;
   if(S.modal==="settings"){
     const all=(S.data.courses||[]).slice().sort((a,b)=>(b.startdate-a.startdate)||a.fullname.localeCompare(b.fullname)), sel=new Set(S.data.selected||[]);
-    inner=`<h3>設定</h3><p class="hint">${S.demo?"目前顯示的是範例資料。":`已連線：${esc(S.data.user)}`}</p>
-      ${S.demo?"":`<form id="set-form"><label class="field">要顯示的課</label><div class="cl">${all.map(c=>`<label class="cc" style="--cb:${sel.has(c.id)?colorOf(c.id):"transparent"}">
-        <input type="checkbox" class="chk" name="c" value="${c.id}" ${sel.has(c.id)?"checked":""}><i></i><span>${esc(c.fullname)}</span>
-        <small>${c.startdate?new Date(c.startdate*1000).getFullYear()+"/"+(new Date(c.startdate*1000).getMonth()+1):""}</small></label>`).join("")}</div>
-        <label class="cl" style="margin:0"><label><input type="checkbox" class="chk" id="s-all" ${S.cfg.allForums?"checked":""}>除了公告，也顯示一般討論區的貼文</label></label>
-        <div class="row"><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">儲存</button></div></form>`}
+    const dg=S.data.diag||{};
+    inner=`<h3>設定</h3><p class="hint">${S.demo?"目前是範例資料，可以隨便改來試玩。":`已連線：${esc(S.data.user)}。這裡改的東西只存在這台裝置。`}</p>
+      <form id="set-form">
+        <label class="field">課程的顏色和名字</label>
+        ${(S.data.selected||[]).map(id=>{const c=course(id)||{fullname:""};const cur=(S.cpDraft&&S.cpDraft[id]&&S.cpDraft[id].color)||colorOf(id);return `<div class="crow">
+          <div class="top"><input class="input" name="nm-${id}" value="${esc(S.cpDraft&&S.cpDraft[id]?S.cpDraft[id].name:(S.cp[id]&&S.cp[id].name||""))}" placeholder="${esc(shortName(c.fullname))}" aria-label="${esc(c.fullname)} 的顯示名稱"></div>
+          <div class="sws" role="group" aria-label="${esc(shortName(c.fullname))} 的顏色">${SWATCH.map(col=>`<button type="button" class="sw" style="--cb:${col}" data-act="pickcolor" data-cid="${id}" data-c="${col}" aria-pressed="${col===cur}" aria-label="顏色 ${col}"></button>`).join("")}</div></div>`}).join("")}
+        <hr class="sep">
+        <label class="field">標籤</label>
+        <div class="tagpick" style="margin-bottom:6px">${S.tags.map(g=>`<button type="button" class="cc" style="--cb:${g.color}" aria-pressed="true" data-act="deltag" data-id="${g.id}" title="刪除這個標籤">${esc(g.name)}　✕</button>`).join("")||`<span class="hint">還沒有標籤</span>`}</div>
+        <div class="two"><input class="input" id="newtag" maxlength="12" placeholder="新標籤名稱，例如：考試"><button type="button" class="btn ghost" data-act="addtag">加入</button></div>
+        ${S.demo?"":`<hr class="sep"><label class="field">要顯示的課</label><div class="cl">${all.map(c=>`<label class="cc" style="--cb:${sel.has(c.id)?colorOf(c.id):"transparent"}">
+          <input type="checkbox" class="chk" name="c" value="${c.id}" ${sel.has(c.id)?"checked":""}><i></i><span>${esc(c.fullname)}</span>
+          <small>${c.startdate?new Date(c.startdate*1000).getFullYear()+"/"+(new Date(c.startdate*1000).getMonth()+1):""}</small></label>`).join("")}</div>
+          <label class="cl" style="margin:0"><label><input type="checkbox" class="chk" id="s-all" ${S.cfg.allForums?"checked":""}>除了公告，也顯示一般討論區的貼文</label></label>`}
+        <div class="row"><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">儲存</button></div></form>
       <div class="row" style="justify-content:flex-start;border-top:1px solid var(--line);padding-top:16px">
-        ${S.demo?(PREVIEW?`<button class="btn ghost" data-act="close">關閉</button>`:`<button class="btn" data-act="logout">連上我的 Moodle</button>`):`<button class="btn danger" data-act="logout">登出並清除這台裝置的資料</button>`}</div>`}
+        ${S.demo?(PREVIEW?"":`<button class="btn" data-act="logout">連上我的 Moodle</button>`):`<button class="btn danger" data-act="logout">登出並清除這台裝置的資料</button>`}</div>
+      ${dg.cal?`<p class="diag">課程行事曆讀取：${esc(dg.cal)}${dg.cal2?"／"+esc(dg.cal2):"（已改用備用方式）"}</p>`:""}`}
+  if(S.modal==="detail") inner=detailHTML();
   if(S.modal==="submit") inner=submitHTML();
   L.innerHTML=`<div class="modal-bg" data-act="close"><div class="modal" role="dialog" aria-modal="true">${inner}</div></div>`;
   const f=L.querySelector("input:not([type=checkbox]):not([type=file]),select,textarea"); if(f&&S.modal!=="submit") setTimeout(()=>f.focus(),30)}
+
+/* ---------- 查看／編輯一項 ---------- */
+function toLocalInput(ts){const d=new Date(ts*1000);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function detailHTML(){
+  const x=allItems().find(i=>i.id===S.det)||null; if(!x) return `<p class="hint">找不到這一項了。</p><div class="row"><button class="btn" data-act="close">關閉</button></div>`;
+  const ed=S.edits[x.id]||{}, url=safeUrl(x.url), t=now();
+  const src=x.src==="p"?`公告「${(S.data.posts.find(p=>p.id===x.postId)||{}).title||""}」裡寫的：\n${x.note}`:x.src==="k"?(x.note||"老師放在 Moodle 行事曆上的活動"):"";
+  const sel=new Set(x.tags||[]);
+  return `<div class="cc" style="${cbStyle(x.courseId)}"><span class="tag course">${esc(cname(x.courseId)||"個人")}</span>
+      <span class="tag" style="margin-left:4px">${esc(x.src==="p"?"公告提到":x.src==="k"?"課程行事曆":x.src==="c"?"自己加的":KIND[x.kind]||"活動")}</span></div>
+    <h3 style="margin-top:8px">${esc(x.name)}</h3>
+    <p class="hint" style="margin-bottom:0">${esc(fmtDate(x.due,{allDay:x.allDay}))}　${esc(x.task?remain(x.due-t):when(x))}${x.moved?`　（原本是 ${esc(fmtDate(x.orig.due,{allDay:x.orig.allDay}))}）`:""}</p>
+    ${src?`<div class="src">${esc(src)}</div>`:`<div style="height:14px"></div>`}
+    <div class="row" style="justify-content:flex-start;margin:0 0 16px">${canSubmit(x)?`<button class="btn" data-act="submit" data-id="${esc(x.id)}">繳交</button>`:""}
+      ${url?`<a class="btn ghost" href="${esc(url)}" target="_blank" rel="noopener">在 Moodle 開啟</a>`:""}</div>
+    <form id="edit-form" data-id="${esc(x.id)}">
+      <div class="fgroup"><label class="field" for="e-n">名稱</label><input class="input" id="e-n" maxlength="120" value="${esc(ed.name||(x.src==="c"?x.name:""))}" placeholder="${esc(x.orig.name)}"></div>
+      <div class="fgroup"><label class="field" for="e-d">時間</label>
+        <div class="two"><input class="input" id="e-d" type="datetime-local" value="${toLocalInput(x.due)}"><label class="inline-chk"><input type="checkbox" class="chk" id="e-ad" ${x.allDay?"checked":""}>整天</label></div>
+        ${x.src==="m"?`<p class="hint" style="margin:6px 0 0;font-size:12px">這裡改的時間只影響這個頁面，Moodle 上真正的截止時間不會變。</p>`:""}</div>
+      ${x.src==="c"?`<div class="fgroup"><label class="field" for="e-c">課程</label><select class="input" id="e-c"><option value="0">不屬於任何課</option>${(S.data.selected||[]).map(id=>`<option value="${id}" ${id===x.courseId?"selected":""}>${esc(cname(id))}</option>`).join("")}</select></div>`:""}
+      <div class="fgroup"><label class="field">標籤</label><div class="tagpick">${S.tags.map(g=>`<button type="button" class="cc" style="--cb:${g.color}" data-act="picktag" data-id="${g.id}" aria-pressed="${sel.has(g.id)}">${esc(g.name)}</button>`).join("")}</div>
+        <p class="hint" style="margin:6px 0 0;font-size:12px">標籤可以在「設定」裡新增或刪除。</p></div>
+      <div class="fgroup"><label class="field" for="e-m">備註</label><textarea class="input" id="e-m" style="min-height:80px" maxlength="500" placeholder="例如：要帶計算機、跟小明同組">${esc(ed.memo||"")}</textarea></div>
+      <div class="row">${(Object.keys(ed).length&&x.src!=="c")?`<button class="btn ghost" type="button" data-act="resetedit" data-id="${esc(x.id)}">還原成原本的</button>`:""}
+        ${x.src==="c"?`<button class="btn danger" type="button" data-act="delcustom" data-id="${esc(x.id)}">刪除</button>`:x.src!=="m"?`<button class="btn ghost" type="button" data-act="hideitem" data-id="${esc(x.id)}">不再顯示</button>`:""}
+        <span style="flex:1"></span><button class="btn ghost" type="button" data-act="close">取消</button><button class="btn" type="submit">儲存</button></div>
+    </form>`}
 
 /* ---------- 繳交作業 ---------- */
 const ST={new:"還沒交",draft:"草稿（還沒送出）",submitted:"已繳交",reopened:"老師開放重交"};
@@ -807,9 +902,9 @@ async function refresh({quiet=false}={}){
 document.addEventListener("click",e=>{
   const el=e.target.closest("[data-act]"); if(!el) return;
   const a=el.dataset.act;
-  if(a==="close"){if(e.target!==el) return; if(S.sub&&S.sub.busy) return; S.modal=null;S.sub=null;return renderLayer()}
+  if(a==="close"){if(e.target!==el) return; if(S.sub&&S.sub.busy) return; S.modal=null;S.sub=null;S.cpDraft=null;return renderLayer()}
   if(a==="refresh") return refresh();
-  if(a==="settings"){S.modal="settings";return renderLayer()}
+  if(a==="settings"){S.modal="settings";S.cpDraft=null;return renderLayer()}
   if(a==="add"){S.modal="add";return renderLayer()}
   if(a==="view"){document.body.dataset.view=el.dataset.v;window.scrollTo({top:0});return render()}
   if(a==="filter"){if(el.dataset.id==="all") S.filter.clear(); else {const id=+el.dataset.id;S.filter.has(id)?S.filter.delete(id):S.filter.add(id)} return render()}
@@ -820,13 +915,22 @@ document.addEventListener("click",e=>{
   if(a==="gocal"){const d=new Date(+el.dataset.ts*1000);S.cal={y:d.getFullYear(),m:d.getMonth()};S.calSel=dayKey(+el.dataset.ts);document.body.dataset.view="cal";window.scrollTo({top:0});return render()}
   if(a==="pickday"){S.calSel=+el.dataset.k;return render()}
   if(a==="mon"){const dd=+el.dataset.d; if(!dd){const n=new Date();S.cal={y:n.getFullYear(),m:n.getMonth()};S.calSel=dayKey(now())} else {const n=new Date(S.cal.y,S.cal.m+dd,1);S.cal={y:n.getFullYear(),m:n.getMonth()}} return render()}
-  if(a==="delcustom"){S.custom=S.custom.filter(x=>x.id!==el.dataset.id);LS.set("custom",S.custom);return render()}
+  if(a==="delcustom"){S.custom=S.custom.filter(x=>x.id!==el.dataset.id);LS.set("custom",S.custom);delete S.edits[el.dataset.id];LS.set("edits",S.edits);S.modal=null;return render()}
+  if(a==="detail"){S.det=el.dataset.id;S.modal="detail";S.tagSel=null;return renderLayer()}
+  if(a==="picktag"){el.setAttribute("aria-pressed",el.getAttribute("aria-pressed")==="true"?"false":"true");return}
+  if(a==="resetedit"){delete S.edits[el.dataset.id];LS.set("edits",S.edits);S.modal=null;render();return toast("已還原")}
+  if(a==="hideitem"){S.hidden.add(el.dataset.id);LS.set("hidden",[...S.hidden]);S.modal=null;render();const id=el.dataset.id;return toast("好，這件不再顯示",()=>{S.hidden.delete(id);LS.set("hidden",[...S.hidden]);render()})}
+  if(a==="star"){const id=el.dataset.id;S.starred.has(id)?S.starred.delete(id):S.starred.add(id);LS.set("starred",[...S.starred]);markRead(id);return render()}
+  if(a==="pickcolor"){el.closest(".sws").querySelectorAll(".sw").forEach(b=>b.setAttribute("aria-pressed",b===el?"true":"false"));return}
+  if(a==="addtag"){const inp=$("#newtag"),n=inp.value.trim();if(!n) return;const used=new Set(S.tags.map(g=>g.color));
+    const col=SWATCH.find(c=>!used.has(c))||SWATCH[S.tags.length%SWATCH.length];S.tags.push({id:"t"+Date.now(),name:n,color:col});LS.set("tags",S.tags);keepSettings();return renderLayer()}
+  if(a==="deltag"){S.tags=S.tags.filter(g=>g.id!==el.dataset.id);LS.set("tags",S.tags);keepSettings();return renderLayer()}
   if(a==="submit") return openSubmit(el.dataset.id);
   if(a==="rmfile"){S.sub.files.splice(+el.dataset.i,1);return renderLayer()}
   if(a==="dosubmit") return doSubmit(el.dataset.final==="1");
   if(a==="demo"){S.demo=true;S.err="";S.data=demoData();return render()}
   if(a==="logout"){if(S.demo){S.demo=false;S.data=null;S.modal=null;return render()}
-    ["cfg","data","custom","hidden","seen","colors","hinted"].forEach(LS.del); location.reload()}
+    ["cfg","data","custom","hidden","seen","colors","hinted","cprefs","edits","starred","tags"].forEach(LS.del); location.reload()}
 });
 document.addEventListener("change",e=>{
   const el=e.target;
@@ -857,10 +961,34 @@ document.addEventListener("submit",async e=>{
     const title=$("#a-t").value.trim(),v=$("#a-d").value,cid=+$("#a-c").value,due=Math.floor(new Date(v)/1000); if(!title||!due) return;
     S.custom.push({id:"c"+Date.now(),title,due,allDay:false,courseId:cid,done:false}); LS.set("custom",S.custom); S.modal=null; render(); toast("已新增待辦")}
   if(f.id==="set-form"){
+    f.querySelectorAll(".crow").forEach(r=>{const inp=r.querySelector("input[name^=nm-]");const cid=+inp.name.slice(3);const on=r.querySelector('.sw[aria-pressed="true"]');
+      const name=inp.value.trim(), color=on?on.dataset.c:null; const def=COLORS[S.colors[cid]];
+      S.cp[cid]={}; if(name) S.cp[cid].name=name; if(color&&color!==def) S.cp[cid].color=color; if(!Object.keys(S.cp[cid]).length) delete S.cp[cid]});
+    LS.set("cprefs",S.cp); S.cpDraft=null;
+    if(S.demo){S.modal=null;render();toast("已儲存");return}
     const ids=[...f.querySelectorAll('input[name="c"]:checked')].map(i=>+i.value); if(!ids.length){toast("至少要選一門課");return}
-    S.cfg.courses=ids; S.cfg.allForums=$("#s-all").checked; saveCfg(); S.filter.clear(); S.modal=null; renderLayer(); await refresh()}
+    const changed=ids.join()!==(S.data.selected||[]).join()||S.cfg.allForums!==$("#s-all").checked;
+    S.cfg.courses=ids; S.cfg.allForums=$("#s-all").checked; saveCfg(); S.filter.clear(); S.modal=null; render(); toast("已儲存"); if(changed) await refresh()}
+  if(f.id==="edit-form"){
+    const id=f.dataset.id, x=allItems().find(i=>i.id===id); if(!x) return;
+    const name=$("#e-n").value.trim(), v=$("#e-d").value, ad=$("#e-ad").checked, memo=$("#e-m").value.trim();
+    const tags=[...f.querySelectorAll('.tagpick [aria-pressed="true"]')].map(b=>b.dataset.id);
+    let due=v?Math.floor(new Date(v)/1000):x.due; if(ad) due=startOfDay(due)+86340;
+    const ed={};
+    if(name&&name!==x.orig.name) ed.name=name;
+    if(Math.abs(due-x.orig.due)>59||ad!==!!x.orig.allDay){ed.due=due;ed.allDay=ad}
+    if(memo) ed.memo=memo; if(tags.length) ed.tags=tags;
+    if(x.src==="c"){const c=S.custom.find(c=>c.id===id); if(c){if(name)c.title=name;c.due=due;c.allDay=ad;c.courseId=+$("#e-c").value;LS.set("custom",S.custom)}
+      delete ed.name;delete ed.due;delete ed.allDay}
+    if(Object.keys(ed).length) S.edits[id]=ed; else delete S.edits[id];
+    LS.set("edits",S.edits); S.modal=null; render(); toast("已儲存")}
 });
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.modal&&!(S.sub&&S.sub.busy)){S.modal=null;S.sub=null;renderLayer()}});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&S.modal&&!(S.sub&&S.sub.busy)){S.modal=null;S.sub=null;renderLayer()}
+  if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".pmeta[data-act=detail]")){e.preventDefault();e.target.click()}});
+function keepSettings(){ // 設定視窗重畫前，先記住還沒儲存的顏色和名字
+  document.querySelectorAll("#set-form .crow").forEach(r=>{const inp=r.querySelector("input[name^=nm-]");const cid=+inp.name.slice(3);
+    const on=r.querySelector('.sw[aria-pressed="true"]');S.cpDraft=S.cpDraft||{};S.cpDraft[cid]={name:inp.value.trim(),color:on?on.dataset.c:null}})}
 
 /* 倒數 */
 let tick=0;
