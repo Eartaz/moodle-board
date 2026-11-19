@@ -1092,17 +1092,38 @@ function parseTT(text){
     if(!out.some(o=>o.cid===cid&&o.day===m.day&&o.a===m.a&&o.b===m.b)) out.push({cid,day:m.day,a:m.a,b:m.b,room:m.room,on:!!cid});
   }
   return out}
+function slotsFromInfo(txt){
+  // 成大課程頁「課程快速設定」：上課教室:社科院大樓-80201 ／ 上課時間:[4]5-8
+  const tm=/上課時間\s*[:：]\s*([^\n]+)/.exec(txt), rm=/上課(?:教室|地點)\s*[:：]\s*([^\n]+)/.exec(txt);
+  const room=rm?rm[1].trim().slice(0,30):"";
+  const found=rawSlots(tm?tm[1]:txt);
+  return found.map(m=>({day:m.day,a:m.a,b:m.b,room:room||m.room||""}))}
 async function ttFromMoodle(){
   const ids=S.data.selected||[]; S.impRaw="";
-  const r=await ws("core_course_get_courses_by_field",{field:"ids",value:ids.join(",")});
+  const texts=new Map(ids.map(id=>[id,[]]));
+  // 1) 課程頁上的區塊（課程快速設定）
+  await pool(ids,4,async id=>{try{
+    const r=await ws("core_block_get_course_blocks",{courseid:id,returncontents:1});
+    for(const b of r.blocks||[]){const c=b.contents||{}; const t=[c.title,htmlToText(c.content||"")].filter(Boolean).join("\n"); if(t) texts.get(id).push(t)}
+  }catch(e){if(AUTH.has(e.code)&&e.code!=="accessexception") throw e}});
+  // 2) 課程說明和自訂欄位
+  try{const r=await ws("core_course_get_courses_by_field",{field:"ids",value:ids.join(",")});
+    for(const c of r.courses||[]){const extra=(c.customfields||[]).map(f=>`${f.name||f.shortname}：${htmlToText(String(f.value||f.valueraw||""))}`);
+      const t=[htmlToText(c.summary),...extra].filter(Boolean).join("\n"); if(t&&texts.has(c.id)) texts.get(c.id).push(t)}}
+  catch(e){if(AUTH.has(e.code)&&e.code!=="accessexception") throw e}
   const out=[];
-  for(const c of r.courses||[]){
-    const extra=(c.customfields||[]).map(f=>`${f.name||f.shortname}：${htmlToText(String(f.value||f.valueraw||""))}`);
-    const txt=[c.fullname,c.shortname,c.idnumber,htmlToText(c.summary),...extra].filter(Boolean).join("\n");
-    if(!S.impRaw&&(c.summary||extra.length)) S.impRaw=`${shortName(c.fullname)}：\n`+txt.slice(0,400);
-    for(const m of rawSlots(txt)) if(!out.some(o=>o.cid===c.id&&o.day===m.day&&o.a===m.a&&o.b===m.b)) out.push({cid:c.id,day:m.day,a:m.a,b:m.b,room:m.room,on:true});
+  for(const [cid,arr] of texts){
+    const txt=arr.join("\n");
+    if(!S.impRaw&&txt) S.impRaw=`${cname(cid)}：\n`+txt.slice(0,400);
+    for(const m of slotsFromInfo(txt)) if(!out.some(o=>o.cid===cid&&o.day===m.day&&o.a===m.a&&o.b===m.b)) out.push({cid,day:m.day,a:m.a,b:m.b,room:m.room,on:true});
   }
   return out}
+async function autoTT(){ // 第一次連上、課表還是空的時候，自動從 Moodle 帶入一次
+  if(S.demo||LS.get("ttAuto",false)) return;
+  const sel=S.data.selected||[]; if(TT().some(s=>sel.includes(s.cid))) {LS.set("ttAuto",true);return}
+  try{const found=await ttFromMoodle(); LS.set("ttAuto",true); if(!found.length) return;
+    found.forEach((r,i)=>S.tt.push({id:"s"+Date.now()+"_"+i,cid:r.cid,day:r.day,a:r.a,b:r.b,room:r.room})); saveTT(); render();
+    toast(`已從 Moodle 帶入 ${found.length} 個上課時段，可以在「課表」裡修改`)}catch(e){}}
 function importHTML(){
   const sel=S.data.selected||[];
   if(S.impLoading) return `<h3>從 Moodle 讀取課表</h3><p class="hint">正在讀每門課的課程資訊…</p>`;
@@ -1376,6 +1397,7 @@ async function refresh({quiet=false}={}){
     {const cur=new Set(d.posts.map(p=>p.id)); S.pdone=new Set([...S.pdone].filter(id=>cur.has(id))); LS.set("pdone",[...S.pdone])}
     const ids=new Set(allItems().map(x=>x.id)); S.hidden=new Set([...S.hidden].filter(id=>ids.has(id)||!/^[ekp]/.test(id))); LS.set("hidden",[...S.hidden]);
     LS.set("data",d);
+    setTimeout(autoTT,300);
   }catch(e){
     if(AUTH.has(e.code)){S.err=S.data?"Moodle 不接受這把金鑰了（可能過期）。請到設定裡登出，再貼一次新的金鑰。":"這把金鑰不對，或已經過期。請再複製一次。"}
     else S.err=S.data?`${e.message}，畫面上是 ${ago(S.data.fetched)} 的資料。`:`${e.message}。請確認網路，或稍後再試。`;
@@ -1436,7 +1458,7 @@ document.addEventListener("click",e=>{
   if(a==="dosubmit") return doSubmit(el.dataset.final==="1");
   if(a==="demo"){S.demo=true;S.err="";S.data=demoData();S.ttDemo=demoTT();S.cnDemo=demoNotes();return render()}
   if(a==="logout"){if(S.demo){S.demo=false;S.data=null;S.modal=null;return render()}
-    ["cfg","data","custom","hidden","seen","colors","hinted","cprefs","edits","starred","tags","tt","cnotes","pdone"].forEach(LS.del); location.reload()}
+    ["cfg","data","custom","hidden","seen","colors","hinted","cprefs","edits","starred","tags","tt","cnotes","pdone","ttAuto"].forEach(LS.del); location.reload()}
 });
 document.addEventListener("change",e=>{
   const el=e.target;
