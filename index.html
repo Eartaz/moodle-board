@@ -127,11 +127,12 @@ body[data-view="tt"] .filters, body[data-view="tt"] .hero, body:not([data-view="
 .next .dl{font-size:13.5px;color:var(--ink-soft)}
 .next .acts{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
 .next .over{font-size:12.5px;color:var(--danger-ink);background:var(--danger-soft);border-radius:8px;padding:3px 10px;margin-top:14px;display:inline-block}
-.then{padding:18px 18px 10px}
+.then{padding:18px}
 .then h3{font-size:14px;color:var(--ink-soft);margin:0 0 8px}
 .then ol{list-style:none;margin:0;padding:0}
-.then li{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-.then li:first-child{border-top:0}
+.then ol{display:flex;flex-direction:column;gap:8px}
+.then li{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:12px;cursor:pointer;
+  background:color-mix(in srgb,var(--cb) 14%,var(--card));border:1px solid color-mix(in srgb,var(--cb) 40%,var(--line))}
 .then .bk{width:28px;height:28px;border-radius:8px;background:var(--cf);flex:none;border:1px solid rgba(0,0,0,.05);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ci)}
 .then .mid{min-width:0;flex:1}
 .then b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -299,12 +300,14 @@ textarea.input{min-height:150px;resize:vertical;line-height:1.6}
 @media (max-width:819px){
   .then-m{display:block;margin-top:16px;border-top:1px dashed var(--line-strong);padding-top:12px}
   .then-m h3{font-size:12.5px;color:var(--ink-soft);margin:0 0 4px;font-weight:600}
-  .then-m ol{list-style:none;margin:0;padding:0}
-  .then-m li{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:13.5px;cursor:pointer}
-  .then-m i{width:9px;height:9px;border-radius:3px;background:var(--cb);flex:none}
-  .then-m b{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .then-m small{color:var(--ink-faint);font-size:11.5px;white-space:nowrap}
-  .then-m .rem{font-size:11.5px;padding:2px 8px}
+  .then-m ol{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+  .then-m li{display:flex;align-items:center;gap:10px;padding:8px 10px;font-size:13.5px;cursor:pointer;
+    background:color-mix(in srgb,var(--cb) 14%,var(--card));border:1px solid color-mix(in srgb,var(--cb) 40%,var(--line));border-radius:11px}
+  .then-m .bk{width:28px;height:28px;border-radius:8px;background:var(--cf);flex:none;border:1px solid rgba(0,0,0,.05);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ci)}
+  .then-m .mid{flex:1;min-width:0}
+  .then-m b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .then-m small{display:block;color:var(--ink-faint);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .then-m .rem{font-size:11.5px;padding:2px 8px;flex:none}
 }
 
 /* ---------- assistant ---------- */
@@ -437,7 +440,7 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}
 <script>
 "use strict";
 const PREVIEW = false;           // 範例預覽版會改成 true
-const VERSION = "10";
+const VERSION = "12";
 const DEFAULT_URL = "https://moodle.ncku.edu.tw";
 const COLORS = ["#9FB39A","#8FA6C0","#AC9CC4","#CFB391","#CBA79F","#93B5AE","#C9BD9A","#C39AAE","#A7B7D6","#B9A58F"];
 const EXTRA = ["#D9A6A0","#E0B57A","#A3C4A0","#7FA7B8","#B8A6D9","#9E9A93"];
@@ -541,8 +544,8 @@ function weekRange(cid,n){const a=termStart(cid)+(n-1)*7*86400;return [a,a+6*864
 function md(ts){const d=new Date(ts*1000);return `${d.getMonth()+1}/${d.getDate()}`}
 function autoType(x){
   if(x.src==="m"){ if(x.kind==="quiz") return "exam"; if(x.kind==="assign"||x.kind==="workshop") return "hw"; return /考|exam|quiz/i.test(x.name)?"exam":"other"}
-  if(x.src==="c") return "other";
   const s=(x.name||"")+" "+(x.note||"");
+  if(x.src==="c"){ if(/期中|期末|段考|考試|補考|小考|會考|測驗|exam|midterm|final|quiz/i.test(s)) return "exam"; if(/作業|報告|繳交|上傳|心得/.test(s)) return "hw"; return "other"}
   if(/期中|期末|段考|考試|補考|小考|會考|測驗|exam|midterm|final|quiz/i.test(s)) return "exam";
   if(/作業|報告|繳交|上傳|心得|期限|截止/.test(s)) return "hw";
   return "ann"}
@@ -794,25 +797,28 @@ function topbarHTML(info){
   </div></header>`}
 
 function heroHTML(open,t){
-  const tasks=open.filter(x=>x.task), next=tasks.find(x=>x.due>t), overdue=tasks.filter(x=>x.due<=t).length;
+  const tasks=open.filter(x=>x.task), overdue=tasks.filter(x=>x.due<=t).length;
+  const heroT=x=>x.allDay?startOfDay(x.due):x.due;          // 沒寫時間的考試，倒數到當天開始
+  const next=open.filter(x=>heroT(x)>t-(x.allDay?86400:0)&&(x.src==="m"||["exam","hw"].includes(typeOf(x)))).sort((a,b)=>heroT(a)-heroT(b))[0];
   const later=open.filter(x=>x.due>t&&x!==next).slice(0,4);
   if(!next) return `<div class="hero"><div class="panel next" style="--cb:var(--accent)"><div class="lab">最近要交</div>
-    <h2>接下來沒有要交的作業 🌿</h2>${overdue?`<div class="over">還有 ${overdue} 項已逾期，在下面的清單裡</div>`:""}</div></div>`;
-  const sec=next.due-t, url=safeUrl(next.url);
+    <h2>接下來沒有要交的作業或考試 🌿</h2>${overdue?`<div class="over">還有 ${overdue} 項已逾期，在下面的清單裡</div>`:""}</div></div>`;
+  const isExam=typeOf(next)==="exam", sec=heroT(next)-t, url=safeUrl(next.url);
   return `<div class="hero">
     <div class="panel next cc${sec<86400?" hot":""}" style="${cbStyle(next.courseId)}">
-      <div class="lab">最近要交<span class="tag course">${esc(cname(next.courseId)||"自己加的")}</span></div>
+      <div class="lab">${isExam?"最近要考":"最近要交"}<span class="tag course">${esc(cname(next.courseId)||"自己加的")}</span></div>
       <h2 data-act="detail" data-id="${esc(next.id)}" style="cursor:pointer">${esc(next.name)}</h2>${next.memo?`<div class="pnote">📝 ${esc(next.memo)}</div>`:""}
-      <div class="clock" data-due="${next.due}">${clockHTML(sec)}</div>
-      <div class="dl">${esc(fmtDate(next.due,{allDay:next.allDay}))} 截止</div>
+      <div class="clock" ${next.allDay?"":`data-due="${next.due}"`}>${next.allDay?dayClock(next.due):clockHTML(sec)}</div>
+      <div class="dl">${esc(fmtDate(next.due,{allDay:next.allDay}))} ${isExam?"考試":"截止"}</div>
       <div class="acts">${canSubmit(next)?`<button class="btn" data-act="submit" data-id="${esc(next.id)}">繳交</button>`:""}
         ${url?`<a class="btn ${canSubmit(next)?"ghost":""}" href="${esc(url)}" target="_blank" rel="noopener">${canSubmit(next)?"在 Moodle 開啟":esc(next.act?"去"+next.act:"打開")}</a>`:""}</div>
       ${overdue?`<div class="over">另外有 ${overdue} 項已逾期</div>`:""}
       ${later.length?`<div class="then-m"><h3>接著是</h3><ol>${later.slice(0,3).map(x=>`<li class="cc" style="${cbStyle(x.courseId)}" data-act="detail" data-id="${esc(x.id)}">
-        <i></i><b>${esc(x.name)}</b><small>${esc(fmtDate(x.due,{time:false}))}</small>
+        <span class="bk">${esc((cname(x.courseId)||"・").slice(0,1))}</span>
+        <span class="mid"><b>${esc(x.name)}</b><small>${esc(cname(x.courseId)||"自己加的")}　${esc(fmtDate(x.due,{allDay:x.allDay}))}</small></span>
         <span class="rem ${x.task?urgency(x.due-t):"soon"}" ${x.task?`data-due="${x.due}"`:""}>${esc(x.task?remain(x.due-t):when(x))}</span></li>`).join("")}</ol></div>`:""}
     </div>
-    ${later.length?`<div class="panel then"><h3>接著是</h3><ol>${later.map(x=>`<li class="cc" style="${cbStyle(x.courseId)}">
+    ${later.length?`<div class="panel then"><h3>接著是</h3><ol>${later.map(x=>`<li class="cc" style="${cbStyle(x.courseId)}" data-act="detail" data-id="${esc(x.id)}">
       <span class="bk">${esc((cname(x.courseId)||"・").slice(0,1))}</span>
       <span class="mid"><b>${esc(x.name)}</b><small>${esc(cname(x.courseId)||"自己加的")}　${esc(fmtDate(x.due,{allDay:x.allDay}))}</small></span>
       <span class="rem ${x.task?urgency(x.due-t):"soon"}" ${x.task?`data-due="${x.due}"`:""}>${esc(x.task?remain(x.due-t):when(x))}</span></li>`).join("")}</ol></div>`:""}
@@ -859,6 +865,7 @@ function ttHTML(t){
     <div class="ttg" style="grid-template-columns:44px repeat(${days.length},minmax(0,1fr));grid-template-rows:auto repeat(${rows.length},minmax(46px,auto))">${h}</div>
     <div class="cat-legend">${ids.map(id=>`<span class="cc" style="${cbStyle(id)}"><i></i>${esc(cname(id))}</span>`).join("")}</div>
     <p class="tt-note">點課程色塊可以打開那門課的筆記本（課程規定、每週要帶的東西、每週進度）。點空白格子可以加課。紅框代表時間衝堂。</p></div>`}
+function dayClock(ts){const d=dayDiff(ts);return d<=0?"就是今天":d===1?"明天":`${d}<span class="u">天後</span>`}
 function clockHTML(sec){
   if(sec<=0) return "0<span class='u'>秒</span>";
   if(sec<48*3600){const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return `${pad(h)}:${pad(m)}:${pad(s)}`}
@@ -1174,6 +1181,7 @@ const GURL="https://generativelanguage.googleapis.com/v1beta";
 function errText(status,j){const e=j&&j.error||{};const m=String(e.message||"").slice(0,180);
   if(status===400&&/api key/i.test(m)) return "金鑰不對（Google 說：API key not valid）。請重新複製一次，前後不要有空白。";
   if(status===403) return "這把金鑰沒有權限使用 Gemini API"+(m?`（Google 說：${m}）`:"");
+  if(status===503||status===500) return "Google 那邊這個模型現在太多人在用，等一下再試通常就好";
   if(status===429) return "免費額度暫時用完，或這個帳號需要先在 AI Studio 開通"+(m?`（Google 說：${m}）`:"");
   return `Gemini 回應錯誤 ${status}`+(m?`（${m}）`:"")}
 async function gfetch(url,opt){
@@ -1188,15 +1196,23 @@ async function listModels(force){
     .filter(n=>/^gemini-(\d[\d.]*-flash(-lite)?|flash(-lite)?-latest)$/.test(n))
     .sort((a,b)=>(/lite/.test(a)-/lite/.test(b))||(ver(b)-ver(a)));
   LS.set("gmodels",{key:aiKey().slice(-6),at:Date.now(),list}); return list}
-async function gemini(contents){
+async function modelOrder(){
   let models=[]; try{models=await listModels()}catch(e){ if(/金鑰|權限/.test(e.message)) throw e }
+  if(S.gUsed) models.unshift(S.gUsed);            // 上次成功的先試
   if(S.cfg.gmodel) models.unshift(S.cfg.gmodel);
-  models=models.concat(["gemini-3.8-flash","gemini-3.6-flash","gemini-flash-latest","gemini-3.5-flash-lite","gemini-flash-lite-latest"]).filter((v,i,a)=>a.indexOf(v)===i).slice(0,6);
-  let last="";
-  for(const m of models){
-    const r=await gfetch(`${GURL}/models/${m}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":aiKey()},
-      body:JSON.stringify({systemInstruction:{parts:[{text:AI_SYS}]},contents,generationConfig:{responseMimeType:"application/json",temperature:0.2}})});
+  return models.concat(["gemini-3.8-flash","gemini-3.6-flash","gemini-flash-latest","gemini-3.5-flash-lite","gemini-flash-lite-latest"]).filter((v,i,a)=>a.indexOf(v)===i).slice(0,6)}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function gpost(m,body){ // 忙線（503／500）時等一下重試一次
+  for(let k=0;k<2;k++){
+    const r=await gfetch(`${GURL}/models/${m}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":aiKey()},body:JSON.stringify(body)});
     const j=await r.json().catch(()=>null);
+    if((r.status===503||r.status===500)&&k===0){await sleep(1500);continue}
+    return {r,j}}}
+async function gemini(contents){
+  const models=await modelOrder(); let last="";
+  for(const m of models){
+    if(S.modal==="ai"&&S.aiBusy){S.aiWait=m;}
+    const {r,j}=await gpost(m,{systemInstruction:{parts:[{text:AI_SYS}]},contents,generationConfig:{responseMimeType:"application/json",temperature:0.2}});
     if(!r.ok){last=errText(r.status,j); if(r.status===400&&/api key/i.test(JSON.stringify(j))||r.status===403) throw new Error(last); continue}
     const parts=(j&&j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[];
     const text=parts.filter(p=>!p.thought).map(p=>p.text||"").join("").trim().replace(/^```(?:json)?\s*|\s*```$/g,"");
@@ -1207,11 +1223,11 @@ async function gemini(contents){
 async function aiTest(){
   S.aiTest="測試中…"; renderLayer();
   try{const list=await listModels(true);
-    if(!list.length){S.aiTest="⚠️ 金鑰可以用，但這個帳號沒有可用的 Gemini Flash 模型。";}
-    else{const r=await gfetch(`${GURL}/models/${list[0]}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":aiKey()},
-        body:JSON.stringify({contents:[{role:"user",parts:[{text:"回答 OK 兩個字"}]}]})});
-      const j=await r.json().catch(()=>null);
-      S.aiTest=r.ok?`✓ 連線成功，會使用 ${list[0]}`:"⚠️ "+errText(r.status,j)}
+    if(!list.length) S.aiTest="⚠️ 金鑰可以用，但這個帳號沒有可用的 Gemini Flash 模型。";
+    else{ let ok=null,last="";
+      for(const m of (await modelOrder())){const {r,j}=await gpost(m,{contents:[{role:"user",parts:[{text:"回答 OK 兩個字"}]}]});
+        if(r.ok){ok=m;break} last=errText(r.status,j); if(r.status===403||(r.status===400&&/api key/i.test(JSON.stringify(j)))) break}
+      if(ok){S.gUsed=ok;S.aiTest=`✓ 連線成功，會使用 ${ok}`} else S.aiTest="⚠️ "+last}
   }catch(e){S.aiTest="⚠️ "+e.message}
   if(S.modal==="ai"||S.modal==="settings") renderLayer()}
 function aiContext(){
@@ -1590,7 +1606,7 @@ function keepSettings(){ // 設定視窗重畫前，先記住還沒儲存的顏�
 let tick=0;
 setInterval(()=>{
   const t=now(),clk=$(".next .clock");
-  if(clk){const sec=+clk.dataset.due-t; if(sec<=0) return render(); clk.innerHTML=clockHTML(sec)}
+  if(clk&&clk.dataset.due){const sec=+clk.dataset.due-t; if(sec<=0) return render(); clk.innerHTML=clockHTML(sec)}
   if(++tick%30===0) document.querySelectorAll(".rem[data-due]").forEach(p=>{const s=+p.dataset.due-t;p.textContent=remain(s);p.className="rem "+urgency(s)});
 },1000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&S.data&&!S.demo&&now()-S.data.fetched>300) refresh({quiet:true})});
